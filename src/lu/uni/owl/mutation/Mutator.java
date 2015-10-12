@@ -14,8 +14,18 @@ public class Mutator {
 	}
 
 	private void generateMutants() {
-		for (String s : ontology.getClassLabels()) {
-			ArrayList<Ontology> mutants = ontology.swapWithParents(ontology.findByLabel(s));
+//		for (String s : ontology.getClassLabels()) {
+//			ArrayList<Ontology> mutants = ontology.swapWithParents(ontology.findClassesByLabel(s));
+//			for (Ontology mutant : mutants)
+//				mutant.save(OWL_PATH, mutant.getVersionIRI() + ".owl");
+//		}
+//		for (String s : ontology.getObjectPropertyLabels()) {
+//			ArrayList<Ontology> mutants = ontology.domainToRange(ontology.findObjectPropertiesByLabel(s));
+//			for (Ontology mutant : mutants)
+//				mutant.save(OWL_PATH, mutant.getVersionIRI() + ".owl");
+//		}
+		for (String s : ontology.getObjectPropertyLabels()) {
+			ArrayList<Ontology> mutants = ontology.rangeToDomain(ontology.findObjectPropertiesByLabel(s));
 			for (Ontology mutant : mutants)
 				mutant.save(OWL_PATH, mutant.getVersionIRI() + ".owl");
 		}

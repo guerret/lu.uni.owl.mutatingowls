@@ -3,6 +3,7 @@ package lu.uni.owl.mutation;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -10,12 +11,14 @@ import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
@@ -72,7 +75,7 @@ public class Ontology {
 		}
 	}
 
-	private String getLabel(OWLClass cls) {
+	private String getLabel(OWLEntity cls) {
 		for (OWLAnnotation a : EntitySearcher.getAnnotations(cls, ontology)) {
 			if (a.getProperty().isLabel())
 				return ((OWLLiteral) a.getValue()).getLiteral();
@@ -80,22 +83,41 @@ public class Ontology {
 		return null;
 	}
 
-	public String[] getClassLabels(Set<OWLClass> classes) {
-		String[] labels = new String[classes.size()];
+	public String[] getLabels(Set<? extends OWLEntity> entities) {
+		String[] labels = new String[entities.size()];
 		int i = 0;
-		for (OWLClass c : classes)
+		for (OWLEntity c : entities)
 			labels[i++] = getLabel(c);
 		return labels;
 	}
 
-	public String[] getClassLabels() {
-		return getClassLabels(ontology.getClassesInSignature());
+	public String[] getObjectPropertyLabels(Set<OWLObjectProperty> properties) {
+		String[] labels = new String[properties.size()];
+		int i = 0;
+		for (OWLObjectProperty p : properties)
+			labels[i++] = getLabel(p);
+		return labels;
 	}
 
-	public OWLClass findByLabel(String label) {
+	public String[] getClassLabels() {
+		return getLabels(ontology.getClassesInSignature());
+	}
+
+	public String[] getObjectPropertyLabels() {
+		return getObjectPropertyLabels(ontology.getObjectPropertiesInSignature());
+	}
+
+	public OWLClass findClassesByLabel(String label) {
 		for (OWLClass c : ontology.getClassesInSignature())
 			if (getLabel(c).equals(label))
 				return c;
+		return null;
+	}
+
+	public OWLObjectProperty findObjectPropertiesByLabel(String label) {
+		for (OWLObjectProperty p : ontology.getObjectPropertiesInSignature())
+			if (getLabel(p).equals(label))
+				return p;
 		return null;
 	}
 
@@ -125,32 +147,22 @@ public class Ontology {
 
 	private void swapClasses(OWLClass cls1, OWLClass cls2) {
 		OWLDataFactory factory = manager.getOWLDataFactory();
-		for (OWLClassExpression s1 : EntitySearcher.getSubClasses(cls1, ontology)) {
-			OWLClass child = s1.asOWLClass();
-			OWLAxiom axiom = factory.getOWLSubClassOfAxiom(child, cls1);
-			RemoveAxiom removeAxiom = new RemoveAxiom(ontology, axiom);
-			manager.applyChange(removeAxiom);
-			axiom = factory.getOWLSubClassOfAxiom(child, cls2);
-			AddAxiom addAxiom = new AddAxiom(ontology, axiom);
-			manager.applyChange(addAxiom);
+		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+		for (OWLClassExpression s : EntitySearcher.getSubClasses(cls1, ontology)) {
+			OWLClass child = s.asOWLClass();
+			changes.add(new RemoveAxiom(ontology, factory.getOWLSubClassOfAxiom(child, cls1)));
+			changes.add(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(child, cls2)));
 		}
-		for (OWLClassExpression s1 : EntitySearcher.getSuperClasses(cls2, ontology)) {
-			if (!s1.isAnonymous()) {
-				OWLClass grandParent = s1.asOWLClass();
-				OWLAxiom axiom = factory.getOWLSubClassOfAxiom(cls2, grandParent);
-				RemoveAxiom removeAxiom = new RemoveAxiom(ontology, axiom);
-				manager.applyChange(removeAxiom);
-				axiom = factory.getOWLSubClassOfAxiom(cls1, grandParent);
-				AddAxiom addAxiom = new AddAxiom(ontology, axiom);
-				manager.applyChange(addAxiom);
+		for (OWLClassExpression s : EntitySearcher.getSuperClasses(cls2, ontology)) {
+			if (!s.isAnonymous()) {
+				OWLClass grandParent = s.asOWLClass();
+				changes.add(new RemoveAxiom(ontology, factory.getOWLSubClassOfAxiom(cls2, grandParent)));
+				changes.add(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(cls1, grandParent)));
 			}
 		}
-		OWLAxiom axiom = factory.getOWLSubClassOfAxiom(cls1, cls2);
-		RemoveAxiom removeAxiom = new RemoveAxiom(ontology, axiom);
-		manager.applyChange(removeAxiom);
-		axiom = factory.getOWLSubClassOfAxiom(cls2, cls1);
-		AddAxiom addAxiom = new AddAxiom(ontology, axiom);
-		manager.applyChange(addAxiom);
+		changes.add(new RemoveAxiom(ontology, factory.getOWLSubClassOfAxiom(cls1, cls2)));
+		changes.add(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(cls2, cls1)));
+		manager.applyChanges(changes);
 	}
 
 	public ArrayList<Ontology> swapWithParents(OWLClass cls) {
@@ -160,6 +172,48 @@ public class Ontology {
 				OWLClass parent = s.asOWLClass();
 				Ontology mutant = copy("swap", getLabel(cls), getLabel(parent));
 				mutant.swapClasses(cls, parent);
+				ret.add(mutant);
+			}
+		}
+		return ret;
+	}
+
+	private void changeDomainToRange(OWLObjectProperty property, OWLClass domain) {
+		OWLDataFactory factory = manager.getOWLDataFactory();
+		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+		changes.add(new RemoveAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(property, domain)));
+		changes.add(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(property, domain)));
+		manager.applyChanges(changes);
+	}
+
+	public ArrayList<Ontology> domainToRange(OWLObjectProperty property) {
+		ArrayList<Ontology> ret = new ArrayList<Ontology>();
+		for (OWLClassExpression d : EntitySearcher.getDomains(property, ontology)) {
+			if (!d.isAnonymous()) {
+				OWLClass domain = d.asOWLClass();
+				Ontology mutant = copy("d2r", getLabel(property), getLabel(domain));
+				mutant.changeDomainToRange(property, domain);
+				ret.add(mutant);
+			}
+		}
+		return ret;
+	}
+
+	private void changeRangeToDomain(OWLObjectProperty property, OWLClass range) {
+		OWLDataFactory factory = manager.getOWLDataFactory();
+		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+		changes.add(new RemoveAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(property, range)));
+		changes.add(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(property, range)));
+		manager.applyChanges(changes);
+	}
+
+	public ArrayList<Ontology> rangeToDomain(OWLObjectProperty property) {
+		ArrayList<Ontology> ret = new ArrayList<Ontology>();
+		for (OWLClassExpression r : EntitySearcher.getRanges(property, ontology)) {
+			if (!r.isAnonymous()) {
+				OWLClass range = r.asOWLClass();
+				Ontology mutant = copy("r2d", getLabel(property), getLabel(range));
+				mutant.changeRangeToDomain(property, range);
 				ret.add(mutant);
 			}
 		}
