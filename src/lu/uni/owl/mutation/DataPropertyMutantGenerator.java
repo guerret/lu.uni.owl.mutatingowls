@@ -8,6 +8,8 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataRange;
+import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 
 public class DataPropertyMutantGenerator extends MutantGenerator {
@@ -25,9 +27,10 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLDataProperty p : ontology.getDataProperties())
 			if (!p.isTopEntity()) {
-				ret.addAll(reassignDataProperty(p));
-				ret.addAll(removeLabels(p));
-				ret.addAll(changeLabelLanguage(p));
+				// ret.addAll(reassignDataProperty(p));
+				ret.addAll(removeDataTypes(p));
+				// ret.addAll(removeLabels(p));
+				// ret.addAll(changeLabelLanguage(p));
 			}
 		return ret;
 	}
@@ -62,6 +65,25 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 						ret.add(mutant);
 					}
 				}
+			}
+		}
+		return ret;
+	}
+
+	private List<MutantGenerator> removeDataTypes(OWLDataProperty property) {
+		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		for (OWLDataRange r : ontology.getDataPropertyRanges(property)) {
+			OWLDatatype type = r.asOWLDatatype();
+			if (!type.isTopDatatype()) {
+				String typeLabel = ontology.getLabel(type).replace(':', '_');
+				DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
+						copy(this, "dptype", ontology.getLabel(property), typeLabel));
+				List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+				factory.getOWLDataPropertyRangeAxiom(property, factory.getRDFPlainLiteral());
+				changes.add(new RemoveAxiom(mutant.ontology.getOntology(),
+						factory.getOWLDataPropertyRangeAxiom(property, r)));
+				manager.applyChanges(changes);
+				ret.add(mutant);
 			}
 		}
 		return ret;

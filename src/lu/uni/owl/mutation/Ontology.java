@@ -12,6 +12,7 @@ import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataRange;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLLiteral;
@@ -175,6 +176,10 @@ public class Ontology {
 
 	public Collection<OWLClassExpression> getDataPropertyDomains(OWLDataProperty property) {
 		return EntitySearcher.getDomains(property, ontology);
+	}
+
+	public Collection<OWLDataRange> getDataPropertyRanges(OWLDataProperty property) {
+		return EntitySearcher.getRanges(property, ontology);
 	}
 
 }

@@ -16,10 +16,10 @@ public class MutantGeneration {
 
 	private List<MutantGenerator> generateMutants() {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
-		ret.addAll(new ClassMutantGenerator(ontology).generateMutants());
-		ret.addAll(new ObjectPropertyMutantGenerator(ontology).generateMutants());
+//		ret.addAll(new ClassMutantGenerator(ontology).generateMutants());
+//		ret.addAll(new ObjectPropertyMutantGenerator(ontology).generateMutants());
 		ret.addAll(new DataPropertyMutantGenerator(ontology).generateMutants());
-		ret.addAll(new IndividualMutantGenerator(ontology).generateMutants());
+//		ret.addAll(new IndividualMutantGenerator(ontology).generateMutants());
 		return ret;
 	}
 

@@ -404,6 +404,9 @@
         <ObjectProperty IRI="#OWLObjectProperty_f90cb5d0_29a1_41ef_a947_aa86cb69cc14"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="#OWLDataProperty_0e4396a2_5a92_44fd_8605_98eb0e479c01"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#OWLDataProperty_4644d2f7_3262_4cc1_84ff_06605a549316"/>
     </Declaration>
     <Declaration>
@@ -456,6 +459,9 @@
     </Declaration>
     <Declaration>
         <AnnotationProperty IRI="http://www.w3.org/2004/02/skos/core#exactMatch"/>
+    </Declaration>
+    <Declaration>
+        <Datatype IRI="#OWLDatatype_f31dc67e_7300_432a_bf19_fd6fd753b642"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#OWLClass_02b07422_386e_4a70_8c4a_c2534b513fb5"/>
@@ -1738,6 +1744,10 @@
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <DataPropertyDomain>
+        <DataProperty IRI="#OWLDataProperty_0e4396a2_5a92_44fd_8605_98eb0e479c01"/>
+        <Class IRI="#OWLClass_bf972a40_26a4_451a_b104_ea993da94716"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
         <DataProperty IRI="#OWLDataProperty_4644d2f7_3262_4cc1_84ff_06605a549316"/>
         <Class IRI="#OWLClass_ed8bdd2f_f171_49c2_9386_576fe410d791"/>
     </DataPropertyDomain>
@@ -1745,6 +1755,10 @@
         <DataProperty IRI="#OWLDataProperty_6fb5e412_2c48_4308_94b9_2b02c71b8004"/>
         <Class IRI="#OWLClass_be0e1d3c_0330_4bd1_994f_919bb4962315"/>
     </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#OWLDataProperty_0e4396a2_5a92_44fd_8605_98eb0e479c01"/>
+        <Datatype IRI="#OWLDatatype_f31dc67e_7300_432a_bf19_fd6fd753b642"/>
+    </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#OWLDataProperty_4644d2f7_3262_4cc1_84ff_06605a549316"/>
         <Datatype abbreviatedIRI="xsd:string"/>
@@ -2829,6 +2843,11 @@ A controller holding personal information shall not use that information without
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#OWLDataProperty_0e4396a2_5a92_44fd_8605_98eb0e479c01</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">nationality</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#OWLDataProperty_4644d2f7_3262_4cc1_84ff_06605a549316</IRI>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">dataName</Literal>
     </AnnotationAssertion>
@@ -2836,6 +2855,11 @@ A controller holding personal information shall not use that information without
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#OWLDataProperty_6fb5e412_2c48_4308_94b9_2b02c71b8004</IRI>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">dataSubjectId</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#OWLDatatype_f31dc67e_7300_432a_bf19_fd6fd753b642</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Country</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -3151,6 +3175,15 @@ A controller holding personal information shall not use that information without
         <AnnotationProperty IRI="http://www.w3.org/2004/02/skos/core#exactMatch"/>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
     </SubAnnotationPropertyOf>
+    <DatatypeDefinition>
+        <Datatype IRI="#OWLDatatype_f31dc67e_7300_432a_bf19_fd6fd753b642"/>
+        <DataOneOf>
+            <Literal datatypeIRI="&rdf;PlainLiteral">Germany</Literal>
+            <Literal datatypeIRI="&rdf;PlainLiteral">Italy</Literal>
+            <Literal datatypeIRI="&rdf;PlainLiteral">Spain</Literal>
+            <Literal datatypeIRI="&rdf;PlainLiteral">United States of America</Literal>
+        </DataOneOf>
+    </DatatypeDefinition>
 </Ontology>
 
 
