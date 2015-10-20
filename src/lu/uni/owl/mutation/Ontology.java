@@ -15,6 +15,7 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -83,9 +84,9 @@ public class Ontology {
 		return null;
 	}
 
-	public Set<OWLAnnotation> getLabels(OWLEntity cls) {
+	public Set<OWLAnnotation> getLabels(OWLEntity e) {
 		Set<OWLAnnotation> ret = new HashSet<OWLAnnotation>();
-		for (OWLAnnotation a : EntitySearcher.getAnnotations(cls, ontology)) {
+		for (OWLAnnotation a : EntitySearcher.getAnnotations(e, ontology)) {
 			if (a.getProperty().isLabel())
 				ret.add(a);
 		}
@@ -124,6 +125,10 @@ public class Ontology {
 		return getObjectPropertyLabels(ontology.getObjectPropertiesInSignature());
 	}
 
+	public Set<OWLNamedIndividual> getIndividuals() {
+		return ontology.getIndividualsInSignature();
+	}
+
 	public Set<OWLDataProperty> getDataProperties() {
 		return ontology.getDataPropertiesInSignature();
 	}
@@ -144,6 +149,10 @@ public class Ontology {
 
 	public Collection<OWLClassExpression> getSuperClasses(OWLClass cls) {
 		return EntitySearcher.getSuperClasses(cls, ontology);
+	}
+
+	public Collection<OWLClassExpression> getIndividualTypes(OWLNamedIndividual individual) {
+		return EntitySearcher.getTypes(individual, ontology);
 	}
 
 	public Set<OWLClass> getSubClasses(OWLClass cls) {

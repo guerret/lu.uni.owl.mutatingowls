@@ -24,7 +24,11 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 	public List<MutantGenerator> generateMutants() {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLObjectProperty p : ontology.getObjectProperties())
-			ret.addAll(swapDomainRange(p));
+			if (!p.isTopEntity()) {
+				ret.addAll(swapDomainRange(p));
+				ret.addAll(removeLabels(p));
+				ret.addAll(changeLabelLanguage(p));
+			}
 		return ret;
 	}
 
@@ -42,7 +46,7 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 		manager.applyChanges(changes);
 	}
 
-	public List<MutantGenerator> swapDomainRange(OWLObjectProperty property) {
+	private List<MutantGenerator> swapDomainRange(OWLObjectProperty property) {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLClassExpression d : ontology.getObjectPropertyDomains(property)) {
 			if (!d.isAnonymous()) {

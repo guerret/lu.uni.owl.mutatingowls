@@ -7,7 +7,6 @@ import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 
 public class ClassMutantGenerator extends MutantGenerator {
@@ -23,15 +22,17 @@ public class ClassMutantGenerator extends MutantGenerator {
 	@Override
 	public List<MutantGenerator> generateMutants() {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
-		for (OWLClass c : ontology.getClasses()) {
-			ret.addAll(swapWithParents(c));
-			ret.addAll(removeParents(c));
-			ret.addAll(changeLang(c));
-		}
+		for (OWLClass c : ontology.getClasses())
+			if (!c.isTopEntity()) {
+				ret.addAll(swapWithParents(c));
+				ret.addAll(removeParents(c));
+				ret.addAll(removeLabels(c));
+				ret.addAll(changeLabelLanguage(c));
+			}
 		return ret;
 	}
 
-	public List<MutantGenerator> removeParents(OWLClass cls) {
+	private List<MutantGenerator> removeParents(OWLClass cls) {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		int counter = 0;
 		for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
@@ -64,7 +65,7 @@ public class ClassMutantGenerator extends MutantGenerator {
 		manager.applyChanges(changes);
 	}
 
-	public List<MutantGenerator> swapWithParents(OWLClass cls) {
+	private List<MutantGenerator> swapWithParents(OWLClass cls) {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
 			if (!s.isAnonymous()) {
@@ -75,11 +76,6 @@ public class ClassMutantGenerator extends MutantGenerator {
 				ret.add(mutant);
 			}
 		}
-		return ret;
-	}
-
-	private List<MutantGenerator> changeLang(OWLEntity c) {
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		return ret;
 	}
 

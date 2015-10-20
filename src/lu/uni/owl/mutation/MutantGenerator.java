@@ -1,15 +1,23 @@
 package lu.uni.owl.mutation;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import com.google.common.base.Optional;
 
@@ -50,10 +58,43 @@ public abstract class MutantGenerator {
 				return new ObjectPropertyMutantGenerator(new Ontology(owlMutant));
 			if (source instanceof DataPropertyMutantGenerator)
 				return new DataPropertyMutantGenerator(new Ontology(owlMutant));
+			if (source instanceof IndividualMutantGenerator)
+				return new IndividualMutantGenerator(new Ontology(owlMutant));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	protected List<MutantGenerator> removeLabels(OWLEntity entity) {
+		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		for (OWLAnnotation a : ontology.getLabels(entity)) {
+			MutantGenerator mutant = copy(this, "rlabel", ontology.getLabel(entity),
+					((OWLLiteral) a.getValue()).getLang());
+			manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(),
+					factory.getOWLAnnotationAssertionAxiom(entity.getIRI(), a)));
+			ret.add(mutant);
+		}
+		return ret;
+	}
+
+	protected List<MutantGenerator> changeLabelLanguage(OWLEntity entity) {
+		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		for (OWLAnnotation a : ontology.getLabels(entity)) {
+			OWLLiteral label = (OWLLiteral) a.getValue();
+			MutantGenerator mutant = copy(this, "clang", ontology.getLabel(entity), label.getLang());
+			List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+			OWLLiteral lbl = factory.getOWLLiteral(label.getLiteral(), "xx");
+			OWLAnnotation newLabel = factory
+					.getOWLAnnotation(factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), lbl);
+			changes.add(new RemoveAxiom(mutant.ontology.getOntology(),
+					factory.getOWLAnnotationAssertionAxiom(entity.getIRI(), a)));
+			changes.add(new AddAxiom(mutant.ontology.getOntology(),
+					factory.getOWLAnnotationAssertionAxiom(entity.getIRI(), newLabel)));
+			manager.applyChanges(changes);
+			ret.add(mutant);
+		}
+		return ret;
 	}
 
 }

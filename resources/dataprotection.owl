@@ -413,28 +413,16 @@
         <NamedIndividual IRI="#OWLNamedIndividual_2f06aa66_4ab7_41c6_9b94_c2cb13e9691f"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#OWLNamedIndividual_3b3179d7_ab20_45eb_842b_39318f5149a1"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#OWLNamedIndividual_55e57984_3d3c_4ba0_8321_6c74aaf17d36"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#OWLNamedIndividual_6ae3b678_a2b2_4193_8f9a_2ccf21a4c8a4"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#OWLNamedIndividual_80f23d4a_5825_4858_af79_1c67c5289684"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#OWLNamedIndividual_8c8d297c_3ff0_46f8_a478_d30c921d18b7"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#OWLNamedIndividual_8de904ed_c312_4b94_8936_21ff4dc59afc"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#OWLNamedIndividual_9383a976_2f15_4a41_8d61_e43b5694658f"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#OWLNamedIndividual_9acbc5cb_d89e_4fff_8f42_8992774fd62e"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#OWLNamedIndividual_a91304fc_bb35_41cd_a8f0_8cf07c096e4a"/>
@@ -2856,28 +2844,13 @@ A controller holding personal information shall not use that information without
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
-        <IRI>#OWLNamedIndividual_3b3179d7_ab20_45eb_842b_39318f5149a1</IRI>
-        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">EUTransfer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#OWLNamedIndividual_55e57984_3d3c_4ba0_8321_6c74aaf17d36</IRI>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">TradeUnionData</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
-        <IRI>#OWLNamedIndividual_6ae3b678_a2b2_4193_8f9a_2ccf21a4c8a4</IRI>
-        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">EURecipient</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#OWLNamedIndividual_80f23d4a_5825_4858_af79_1c67c5289684</IRI>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">RacialData</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
-        <IRI>#OWLNamedIndividual_8c8d297c_3ff0_46f8_a478_d30c921d18b7</IRI>
-        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">NonEURecipient</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -2888,11 +2861,6 @@ A controller holding personal information shall not use that information without
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#OWLNamedIndividual_9383a976_2f15_4a41_8d61_e43b5694658f</IRI>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">ECHRLawfulness</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
-        <IRI>#OWLNamedIndividual_9acbc5cb_d89e_4fff_8f42_8992774fd62e</IRI>
-        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">NonEUTransfer</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>

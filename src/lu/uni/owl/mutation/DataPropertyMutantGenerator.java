@@ -24,7 +24,11 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 	public List<MutantGenerator> generateMutants() {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLDataProperty p : ontology.getDataProperties())
-			ret.addAll(reassignDataProperty(p));
+			if (!p.isTopEntity()) {
+				ret.addAll(reassignDataProperty(p));
+				ret.addAll(removeLabels(p));
+				ret.addAll(changeLabelLanguage(p));
+			}
 		return ret;
 	}
 
@@ -35,7 +39,7 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 		manager.applyChanges(changes);
 	}
 
-	public List<MutantGenerator> reassignDataProperty(OWLDataProperty property) {
+	private List<MutantGenerator> reassignDataProperty(OWLDataProperty property) {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLClassExpression d : ontology.getDataPropertyDomains(property)) {
 			if (!d.isAnonymous()) {
