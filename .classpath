@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="lib/openrdf-sesame-2.8.5-onejar.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi-distribution-4.0.2.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/lu.uni.owl.mutation/lib/owlapi-distribution-4.0.2-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="http://owlcs.github.io/owlapi/apidocs_4_0_2/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.12.jar"/>
