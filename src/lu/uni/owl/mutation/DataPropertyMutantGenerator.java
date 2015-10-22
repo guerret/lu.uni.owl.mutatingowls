@@ -27,10 +27,10 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLDataProperty p : ontology.getDataProperties())
 			if (!p.isTopEntity()) {
-				// ret.addAll(reassignDataProperty(p));
+				ret.addAll(reassignDataProperty(p));
 				ret.addAll(removeDataTypes(p));
-				// ret.addAll(removeLabels(p));
-				// ret.addAll(changeLabelLanguage(p));
+				ret.addAll(removeLabels(p));
+				ret.addAll(changeLabelLanguage(p));
 			}
 		return ret;
 	}
