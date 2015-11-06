@@ -1,0 +1,568 @@
+@prefix : <http://purl.org/NET/atpir-cw#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix atpir-fi: <http://purl.org/NET/atpir-cw> .
+@base <http://purl.org/NET/atpir-cw> .
+
+<http://purl.org/NET/atpir-cw> rdf:type owl:Ontology ;
+                               
+                               rdfs:label "Complaint Workflow Ontology" ;
+                               
+                               dct:contributor "Victor Rodriguez-Doncel" ;
+                               
+                               rdfs:comment """This is an ontology on the workflow on complaints on Flight Incidents.
+The ontology defines the integrative workflow upon which a consumer might bring a complaint in a valid and complete way when a dispute arises against an airline
+""" ;
+                               
+                               dct:contributor "Cristiana Santos" ;
+                               
+                               owl:versionInfo "1.0" ;
+                               
+                               dct:license <http://purl.org/NET/rdflicense/cc-by> .
+
+
+#################################################################
+#
+#    Annotation properties
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-cw#hasAirline
+
+:hasAirline rdf:type owl:AnnotationProperty ;
+            
+            rdfs:domain <http://purl.org/NET/atpir-cwFlight> .
+
+
+
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-cw#hasActionStep
+
+:hasActionStep rdf:type owl:ObjectProperty ;
+               
+               rdfs:comment "Declares the step related to a workflow" ;
+               
+               rdfs:range :ActionStep ;
+               
+               rdfs:domain :ComplaintWorkflow ;
+               
+               rdfs:subPropertyOf owl:topObjectProperty .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasAirCarrierDetails
+
+:hasAirCarrierDetails rdf:type owl:ObjectProperty ;
+                      
+                      rdfs:domain :AirCarrier .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasFormat
+
+:hasFormat rdf:type owl:ObjectProperty ;
+           
+           rdfs:domain :ComplainingToTheAirCarrier ;
+           
+           rdfs:range :OnlineComplaining .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasOfflineFormat
+
+:hasOfflineFormat rdf:type owl:ObjectProperty ;
+                  
+                  rdfs:domain :Complaint ;
+                  
+                  rdfs:subPropertyOf owl:topObjectProperty .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasOnlineFormat
+
+:hasOnlineFormat rdf:type owl:ObjectProperty ;
+                 
+                 rdfs:domain :Complaint ;
+                 
+                 rdfs:subPropertyOf owl:topObjectProperty .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasParty
+
+:hasParty rdf:type owl:ObjectProperty ;
+          
+          rdfs:comment "Declares a party that is in a complaint" ;
+          
+          rdfs:domain :Complaint ;
+          
+          rdfs:range :Party .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasPassengerDetails
+
+:hasPassengerDetails rdf:type owl:ObjectProperty ;
+                     
+                     rdfs:domain :Passenger .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasPreviousStep
+
+:hasPreviousStep rdf:type owl:ObjectProperty ;
+                 
+                 rdfs:comment "Declares the order of the action steps of the workflow" ;
+                 
+                 rdfs:domain :ActionStep ;
+                 
+                 rdfs:range :ActionStep .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasProofDocuments
+
+:hasProofDocuments rdf:type owl:ObjectProperty ;
+                   
+                   rdfs:domain :AddingProofDocument ;
+                   
+                   rdfs:range :ProofDocument .
+
+
+
+###  http://purl.org/NET/atpir-cw#hasWorkflow
+
+:hasWorkflow rdf:type owl:ObjectProperty ;
+             
+             rdfs:domain :Complaint ;
+             
+             rdfs:range :ComplaintWorkflow .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-cw#AirCarrierAddress
+
+:AirCarrierAddress rdf:type owl:DatatypeProperty ;
+                   
+                   rdfs:comment "The address of the air carrier." ;
+                   
+                   rdfs:domain :AirCarrier ;
+                   
+                   rdfs:range xsd:string .
+
+
+
+###  http://purl.org/NET/atpir-cw#AirCarrierName
+
+:AirCarrierName rdf:type owl:DatatypeProperty ;
+                
+                rdfs:comment "The identification of the air carrier." ;
+                
+                rdfs:domain :AirCarrier ;
+                
+                rdfs:range xsd:string .
+
+
+
+###  http://purl.org/NET/atpir-cw#BookingReference
+
+:BookingReference rdf:type owl:DatatypeProperty ;
+                  
+                  rdfs:comment "The booking reference (also called Passenger Name Record or PNR) is an alphanumeric code (sequence comprised of six letters and/or numbers in length) used to uniquely identify one specific booking reservation. It can be found on the receipt the passenger has received after completing the act of booking." ;
+                  
+                  rdfs:domain :Passenger ;
+                  
+                  rdfs:range xsd:string .
+
+
+
+###  http://purl.org/NET/atpir-cw#PassengerChildIdentification
+
+:PassengerChildIdentification rdf:type owl:DatatypeProperty ;
+                              
+                              rdfs:comment "Identification of the passenger's child." ;
+                              
+                              rdfs:domain :Passenger ;
+                              
+                              rdfs:subPropertyOf :PassengerContacts ;
+                              
+                              rdfs:range xsd:Name .
+
+
+
+###  http://purl.org/NET/atpir-cw#PassengerContacts
+
+:PassengerContacts rdf:type owl:DatatypeProperty ;
+                   
+                   rdfs:comment "The contacts of the passenger, such as telephone, mobile phone and email address." ;
+                   
+                   rdfs:domain :Passenger ;
+                   
+                   rdfs:range xsd:integer .
+
+
+
+###  http://purl.org/NET/atpir-cw#PassengerCountry
+
+:PassengerCountry rdf:type owl:DatatypeProperty ;
+                  
+                  rdfs:comment "The country of the passenger." ;
+                  
+                  rdfs:domain :Passenger ;
+                  
+                  rdfs:range xsd:string .
+
+
+
+###  http://purl.org/NET/atpir-cw#PassengerFullAddress
+
+:PassengerFullAddress rdf:type owl:DatatypeProperty ;
+                      
+                      rdfs:comment "The passenger's full address." ;
+                      
+                      rdfs:domain :Passenger ;
+                      
+                      rdfs:range xsd:string .
+
+
+
+###  http://purl.org/NET/atpir-cw#PassengerFullName
+
+:PassengerFullName rdf:type owl:DatatypeProperty ;
+                   
+                   rdfs:comment "The passenger's full name." ;
+                   
+                   rdfs:domain :Passenger ;
+                   
+                   rdfs:range xsd:Name .
+
+
+
+###  http://purl.org/NET/atpir-cw#TicketNumber
+
+:TicketNumber rdf:type owl:DatatypeProperty ;
+              
+              rdfs:comment """The ticket number is a 13-digit number that uniquely identifies the air carrier ticket that was issued to the passenger.
+It includes the air carrier's 3-digit ticketing code, a 4-digit form number, a 6-digit serial number, and sometimes a check digit. 
+The sources to locate the ticket number are boarding pass and the ticket receipt.""" ;
+              
+              rdfs:domain :Complaint ;
+              
+              rdfs:range xsd:integer .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-cw#ActionStep
+
+:ActionStep rdf:type owl:Class ;
+            
+            rdfs:comment "Specific set of steps to lodge a complaint." .
+
+
+
+###  http://purl.org/NET/atpir-cw#AddingProofDocument
+
+:AddingProofDocument rdf:type owl:Class ;
+                     
+                     rdfs:subClassOf :ActionStep ;
+                     
+                     rdfs:comment "Step of the complaint workflow which consists of adding proof documents to the complaint." .
+
+
+
+###  http://purl.org/NET/atpir-cw#AirCarrier
+
+:AirCarrier rdf:type owl:Class ;
+            
+            rdfs:subClassOf :Party ;
+            
+            rdfs:isDefinedBy """Air carrier means an air transport that provides air transport services for passengers and/or freight.
+Airlines lease or own their aircraft, undertaking with a valid operating licence, Article 2 (a), Regulation 261/2004.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-cw#BaggageInventoryForm
+
+:BaggageInventoryForm rdf:type owl:Class ;
+                      
+                      rdfs:subClassOf :ProofDocument ;
+                      
+                      rdfs:comment "Template or form that the passenger needs to to fill for reporting the missing baggage with information regarding the color and shape of the baggage and the items contained in the baggage." .
+
+
+
+###  http://purl.org/NET/atpir-cw#BoardingPass
+
+:BoardingPass rdf:type owl:Class ;
+              
+              rdfs:subClassOf :ProofDocument ;
+              
+              rdfs:comment "Boarding Pass means a valid document, or something equivalent in paperless form, including electronic form, issued or authorised by the air carrier or its authorised agent, giving a passenger permission to board the airplane for a particular flight. As a minimum, it identifies the passenger, the flight number, and the date and scheduled time for departure. In some cases, flyers can check in online and print the boarding passes themselves." .
+
+
+
+###  http://purl.org/NET/atpir-cw#CabinCrew
+
+:CabinCrew rdf:type owl:Class ;
+           
+           rdfs:subClassOf :AirCarrier ;
+           
+           rdfs:comment "Group of individuals who work in the passenger area, which is also known as the cabin. People who work in the cabin may be referred to as flight attendants, stewards or stewardesses, or air hosts or hostesses." .
+
+
+
+###  http://purl.org/NET/atpir-cw#CallCenter
+
+:CallCenter rdf:type owl:Class ;
+            
+            rdfs:subClassOf :AirCarrier ;
+            
+            rdfs:comment "Call Center is a centralised office used for the purpose of receiving or transmitting a large volume of requests by telephone. An inbound call centre is operated by a company to administer incoming product support or information inquiries from consumers." .
+
+
+
+###  http://purl.org/NET/atpir-cw#Captain
+
+:Captain rdf:type owl:Class ;
+         
+         rdfs:subClassOf :TechnicalCrew ;
+         
+         rdfs:comment "Captain is the person aboard the aircraft who is ultimately responsible for its operation and safety during flight, or pilot in command (PIC)." .
+
+
+
+###  http://purl.org/NET/atpir-cw#ComplainingToTheAirCarrier
+
+:ComplainingToTheAirCarrier rdf:type owl:Class ;
+                            
+                            rdfs:subClassOf :ActionStep ;
+                            
+                            rdfs:comment """First step of the complaint workflow in order to lodge a complaint to the air carrier.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-cw#Complaint
+
+:Complaint rdf:type owl:Class ;
+           
+           rdfs:comment "Any formal legal document that sets out the facts (cause of action) and legal reasons that the consumer believes are sufficient to support a claim against the company " .
+
+
+
+###  http://purl.org/NET/atpir-cw#ComplaintWorkflow
+
+:ComplaintWorkflow rdf:type owl:Class ;
+                   
+                   rdfs:comment "Life-cycle for handling a complaint which consists in a specific set of steps to lodge a complaint." .
+
+
+
+###  http://purl.org/NET/atpir-cw#CopyRecord
+
+:CopyRecord rdf:type owl:Class ;
+            
+            rdfs:subClassOf :ProofDocument ;
+            
+            rdfs:comment "Record of the copy of the complaint." .
+
+
+
+###  http://purl.org/NET/atpir-cw#FlightAttendant
+
+:FlightAttendant rdf:type owl:Class ;
+                 
+                 rdfs:subClassOf :CabinCrew ;
+                 
+                 rdfs:comment "Is the crew member responsible for the safety of passengers." .
+
+
+
+###  http://purl.org/NET/atpir-cw#GroundHandling
+
+:GroundHandling rdf:type owl:Class ;
+                
+                rdfs:subClassOf :AirCarrier ;
+                
+                rdfs:comment "Ground handling addresses the many service requirements of an airliner between the time it arrives at a terminal gate and the time it departs on its next flight.Many airlines subcontract ground handling to airports, handling agents or even to another airline." .
+
+
+
+###  http://purl.org/NET/atpir-cw#Invoice
+
+:Invoice rdf:type owl:Class ;
+         
+         rdfs:subClassOf :ProofDocument ;
+         
+         rdfs:comment "An invoice, bill or tab is a commercial document issued by a seller to a buyer, relating to any sale transaction and indicating the products, quantities, and agreed prices for products or services the seller has provided the buyer." .
+
+
+
+###  http://purl.org/NET/atpir-cw#NationalEnforcementBody
+
+:NationalEnforcementBody rdf:type owl:Class ;
+                         
+                         rdfs:subClassOf :AirCarrier ;
+                         
+                         rdfs:comment "A body responsible for the enforcement of this Regulation as regards flights from airports situated on its territory and flights from a third country to such airports. Where appropriate, this body shall take the measures necessary to ensure that the rights of passengers are respected. Passengers who believe they have not been treated correctly should contact the body in the country where the incident took place, Article 16of the Regulation (EC) 261/2004." .
+
+
+
+###  http://purl.org/NET/atpir-cw#OfflineComplaining
+
+:OfflineComplaining rdf:type owl:Class ;
+                    
+                    rdfs:subClassOf :ComplainingToTheAirCarrier ;
+                    
+                    rdfs:comment "Offline format of the document that is used to lodge a complaint. " .
+
+
+
+###  http://purl.org/NET/atpir-cw#OnlineComplaining
+
+:OnlineComplaining rdf:type owl:Class ;
+                   
+                   rdfs:subClassOf :ComplainingToTheAirCarrier ;
+                   
+                   rdfs:comment "Online format of the document that is used to lodge a complaint. " .
+
+
+
+###  http://purl.org/NET/atpir-cw#Party
+
+:Party rdf:type owl:Class ;
+       
+       rdfs:comment "Agents that might be involved in a process." .
+
+
+
+###  http://purl.org/NET/atpir-cw#Passenger
+
+:Passenger rdf:type owl:Class ;
+           
+           rdfs:subClassOf :Party ;
+           
+           rdfs:comment "A passenger is a natural person independent of age who intends to conclude, or has consented to, a contract of air carriage with the provider of a transport service." .
+
+
+
+###  http://purl.org/NET/atpir-cw#ProofDocument
+
+:ProofDocument rdf:type owl:Class ;
+               
+               rdfs:comment "Any kind of documents that can prove the legal arguments, facts, sustained in the complaint against the air carrier (in particular boarding passes, flight records as well as correspondence with the aircarrier)." .
+
+
+
+###  http://purl.org/NET/atpir-cw#SubmitingToNationalEnforcementBody
+
+:SubmitingToNationalEnforcementBody rdf:type owl:Class ;
+                                    
+                                    rdfs:subClassOf :ActionStep ;
+                                    
+                                    rdfs:comment "Second step of the complaint workflow that consist in submiting the complaint to the National Enforcement Body." .
+
+
+
+###  http://purl.org/NET/atpir-cw#TechnicalCrew
+
+:TechnicalCrew rdf:type owl:Class ;
+               
+               rdfs:subClassOf :AirCarrier ;
+               
+               rdfs:comment "Technical crew include flight deck positions, which consists of those who fly the plane." .
+
+
+
+###  http://purl.org/NET/atpir-cw#TicketReceipt
+
+:TicketReceipt rdf:type owl:Class ;
+               
+               rdfs:subClassOf :ProofDocument ;
+               
+               rdfs:comment "A receipt is a written acknowledgment that a specified article or payment has been received." .
+
+
+
+###  http://purl.org/NET/atpir-cw#TravelAgency
+
+:TravelAgency rdf:type owl:Class ;
+              
+              rdfs:subClassOf :Party ;
+              
+              rdfs:comment "A travel agency is a private retailer or public service that provides travel and tourism related services to the public on behalf of suppliers such as airlines, car rentals, cruise lines, hotels, railways, and package tours." .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-cw#EUComplaintForm
+
+:EUComplaintForm rdf:type :OnlineComplaining ,
+                          owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-cw#Email
+
+:Email rdf:type :OnlineComplaining ,
+                owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-cw#Fax
+
+:Fax rdf:type :OnlineComplaining ,
+              owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-cw#Webform
+
+:Webform rdf:type :OnlineComplaining ,
+                  owl:NamedIndividual .
+
+
+
+
+###  Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net
+

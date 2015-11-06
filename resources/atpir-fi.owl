@@ -1,0 +1,686 @@
+@prefix : <http://purl.oclc.org/NET/Complaint#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/TR/skos-reference#> .
+@prefix provo: <http://www.w3.org/ns/prov#> .
+@prefix lkif-core: <http://www.estrellaproject.org/lkif-core/lkif-core.owl#> .
+@base <http://purl.org/NET/atpir-fi> .
+
+<http://purl.org/NET/atpir-fi> rdf:type owl:Ontology ;
+                               
+                               rdfs:label "Flight Incident Ontology" ;
+                               
+                               owl:versionInfo "1.0" ;
+                               
+                               dct:contributor "Víctor Rodríguez-Doncel" ,
+                                               "Cristiana Santos" ;
+                               
+                               rdfs:comment """This is an ontology on Flight Incidents.
+The ontology expresses the main flight disruptions that frame the air transport dispute market, such as a) baggage incidents (delayed, damaged and missing baggage); b) flight incidents (delayed, cancelled, denied flights); and c) service incidents (unfair commercial practises, bad quality service and irresponsiveness)""" ;
+                               
+                               dct:license <http://purl.org/NET/rdflicense/cc-by> .
+
+
+#################################################################
+#
+#    Annotation properties
+#
+#################################################################
+
+
+###  http://purl.oclc.org/NET/Complaint#ActualTimeOfArrival
+
+:ActualTimeOfArrival rdf:type owl:AnnotationProperty ;
+                     
+                     rdfs:comment "The accurate time of arrival of the flight." ;
+                     
+                     rdfs:domain :Flight ,
+                                 <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#ActualTimeOfDeparture
+
+:ActualTimeOfDeparture rdf:type owl:AnnotationProperty ;
+                       
+                       rdfs:comment "The accurate time of departure of the flight." ;
+                       
+                       rdfs:domain :Flight ,
+                                   <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#DomesticFlight
+
+:DomesticFlight rdf:type owl:AnnotationProperty ;
+                
+                rdfs:domain :Flight ,
+                            <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#FlightDate
+
+:FlightDate rdf:type owl:AnnotationProperty ;
+            
+            rdfs:comment "Flight date is the actual date of the flight." ;
+            
+            rdfs:domain :Flight ,
+                        <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#FlightNumber
+
+:FlightNumber rdf:type owl:AnnotationProperty ;
+              
+              rdfs:comment """The flight number is an alphanumerical designator (is usually a two-letter abbreviation for the airline, followed by a three or four-digit number).
+It identifies a particular airline's specific flight in one direction, from origin to destination.
+The flight number are important when it comes to checking the airport gate monitor or flight status.
+""" ;
+              
+              rdfs:domain :Flight ,
+                          <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#IntraCommunityFlight
+
+:IntraCommunityFlight rdf:type owl:AnnotationProperty ;
+                      
+                      rdfs:domain :Flight ,
+                                  <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#LongHaulFlight
+
+:LongHaulFlight rdf:type owl:AnnotationProperty ;
+                
+                rdfs:domain :Flight ,
+                            <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#MediumHaulFlight
+
+:MediumHaulFlight rdf:type owl:AnnotationProperty ;
+                  
+                  rdfs:domain :Flight ,
+                              <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#ScheduledTimeOfArrival
+
+:ScheduledTimeOfArrival rdf:type owl:AnnotationProperty ;
+                        
+                        rdfs:comment "The estimated or expected time to arrive at a certain airport." ;
+                        
+                        rdfs:domain :Flight ,
+                                    <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#ScheduledTimeOfDeparture
+
+:ScheduledTimeOfDeparture rdf:type owl:AnnotationProperty ;
+                          
+                          rdfs:comment "The estimated or expected time to departure from a certain airport." ;
+                          
+                          rdfs:domain :Flight ,
+                                      <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#ShortHaulFlight
+
+:ShortHaulFlight rdf:type owl:AnnotationProperty ;
+                 
+                 rdfs:domain :Flight ,
+                             <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#SingularFlight
+
+:SingularFlight rdf:type owl:AnnotationProperty ;
+                
+                rdfs:domain :Flight .
+
+
+
+###  http://www.w3.org/TR/skos-reference#broader
+
+skos:broader rdf:type owl:AnnotationProperty .
+
+
+
+###  http://www.w3.org/TR/skos-reference#closeMatch
+
+skos:closeMatch rdf:type owl:AnnotationProperty .
+
+
+
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://purl.oclc.org/NET/Complaint#causedBy
+
+:causedBy rdf:type owl:ObjectProperty ;
+          
+          rdfs:comment "declares the incident that has caused a complaint" ;
+          
+          rdfs:range <http://purl.org/NET/atpir-fi#Incident> ;
+          
+          skos:closeMatch provo:wasGeneratedBy .
+
+
+
+###  http://purl.org/NET/atpir-fi#hasDepartureAirport
+
+<http://purl.org/NET/atpir-fi#hasDepartureAirport> rdf:type owl:ObjectProperty ;
+                                                   
+                                                   rdfs:comment """declares the departure airport for a flight
+""" ;
+                                                   
+                                                   rdfs:range <http://purl.org/NET/atpir-fi#Airport> ;
+                                                   
+                                                   rdfs:domain <http://purl.org/NET/atpir-fi#Flight> .
+
+
+
+###  http://purl.org/NET/atpir-fi#hasDestinationAirport
+
+<http://purl.org/NET/atpir-fi#hasDestinationAirport> rdf:type owl:ObjectProperty ;
+                                                     
+                                                     rdfs:comment """declares the destination airport for a flight
+""" ;
+                                                     
+                                                     rdfs:range <http://purl.org/NET/atpir-fi#Airport> ;
+                                                     
+                                                     rdfs:domain <http://purl.org/NET/atpir-fi#Flight> ;
+                                                     
+                                                     rdfs:subPropertyOf owl:topObjectProperty .
+
+
+
+###  http://purl.org/NET/atpir-fi#hasFlightDetails
+
+<http://purl.org/NET/atpir-fi#hasFlightDetails> rdf:type owl:ObjectProperty ;
+                                                
+                                                rdfs:range <http://purl.org/NET/atpir-fi#ConnectingFlight> ,
+                                                           <http://purl.org/NET/atpir-fi#DirectFlight> ,
+                                                           <http://purl.org/NET/atpir-fi#DomesticFlight> ;
+                                                
+                                                rdfs:domain <http://purl.org/NET/atpir-fi#Flight> ;
+                                                
+                                                rdfs:range <http://purl.org/NET/atpir-fi#IntraCommunityFlight> ,
+                                                           <http://purl.org/NET/atpir-fi#LongHaulFlight> ,
+                                                           <http://purl.org/NET/atpir-fi#MediumHaulFlight> ,
+                                                           <http://purl.org/NET/atpir-fi#NonStopFlight> ,
+                                                           <http://purl.org/NET/atpir-fi#RoundTripFlight> ,
+                                                           <http://purl.org/NET/atpir-fi#ShortHaulFlight> ,
+                                                           <http://purl.org/NET/atpir-fi#SingularFlight> .
+
+
+
+###  http://purl.org/NET/atpir-fi#underContextOf
+
+<http://purl.org/NET/atpir-fi#underContextOf> rdf:type owl:ObjectProperty ;
+                                              
+                                              rdfs:comment "declares the context that is related to an incident" ;
+                                              
+                                              rdfs:range <http://purl.org/NET/atpir-fi#Context> ;
+                                              
+                                              rdfs:domain <http://purl.org/NET/atpir-fi#Incident> .
+
+
+
+###  http://www.w3.org/2002/07/owl#topObjectProperty
+
+owl:topObjectProperty rdfs:domain :FlightIncident .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://purl.oclc.org/NET/Complaint#ActualTimeOfArrival
+
+:ActualTimeOfArrival rdf:type owl:DatatypeProperty ;
+                     
+                     rdfs:comment "The accurate time of arrival of the flight." ;
+                     
+                     rdfs:range xsd:dateTime .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#ActualTimeOfDeparture
+
+:ActualTimeOfDeparture rdf:type owl:DatatypeProperty ;
+                       
+                       rdfs:comment "The accurate time of departure of the flight." ;
+                       
+                       rdfs:range xsd:dateTime ;
+                       
+                       rdfs:subPropertyOf owl:topDataProperty .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#FlightDate
+
+:FlightDate rdf:type owl:DatatypeProperty ;
+            
+            rdfs:comment "Flight date is the actual date of the flight." ;
+            
+            rdfs:range xsd:dateTime ;
+            
+            rdfs:subPropertyOf owl:topDataProperty .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#FlightNumber
+
+:FlightNumber rdf:type owl:DatatypeProperty ;
+              
+              rdfs:comment """The flight number is an alphanumerical designator (is usually a two-letter abbreviation for the airline, followed by a three or four-digit number).
+It identifies a particular airline's specific flight in one direction, from origin to destination.
+The flight number are important when it comes to checking the airport gate monitor or flight status.
+""" ;
+              
+              rdfs:range xsd:string .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#ScheduledTimeOfArrival
+
+:ScheduledTimeOfArrival rdf:type owl:DatatypeProperty ;
+                        
+                        rdfs:comment "The estimated or expected time to arrive at a certain airport." ;
+                        
+                        rdfs:range xsd:dateTime .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#ScheduledTimeOfDeparture
+
+:ScheduledTimeOfDeparture rdf:type owl:DatatypeProperty ;
+                          
+                          rdfs:comment "The estimated or expected time to departure from a certain airport." ;
+                          
+                          rdfs:range xsd:dateTime .
+
+
+
+###  http://purl.org/NET/atpir-fi#hasLocation
+
+<http://purl.org/NET/atpir-fi#hasLocation> rdf:type owl:DatatypeProperty ;
+                                           
+                                           rdfs:comment "Declares the location of an Airport" ;
+                                           
+                                           rdfs:domain <http://purl.org/NET/atpir-fi#Airport> ;
+                                           
+                                           rdfs:range xsd:string ;
+                                           
+                                           rdfs:subPropertyOf owl:topDataProperty .
+
+
+
+###  http://purl.org/NET/atpir-fi#reasonForCancellation
+
+<http://purl.org/NET/atpir-fi#reasonForCancellation> rdf:type owl:DatatypeProperty ;
+                                                     
+                                                     rdfs:comment "Cause originating a flight cancellation." ;
+                                                     
+                                                     rdfs:domain :CancelledFlight .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://purl.oclc.org/NET/Complaint#BaggageIncident
+
+:BaggageIncident rdf:type owl:Class ;
+                 
+                 rdfs:subClassOf <http://purl.org/NET/atpir-fi#Incident> ;
+                 
+                 rdfs:comment "Incident related to a baggage." .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#CancelledFlight
+
+:CancelledFlight rdf:type owl:Class ;
+                 
+                 rdfs:subClassOf :FlightIncident ;
+                 
+                 rdfs:comment """A cancelled flight means the non-operation of a flight that was previously planned, Article 5 of the EC Regulation 261/2004.
+""" .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#DelayedFlight
+
+:DelayedFlight rdf:type owl:Class ;
+               
+               rdfs:subClassOf :FlightIncident ;
+               
+               rdfs:comment """Delayed flight refers to a flight whose departure time is later than the departure time originally scheduled, Article 6 of the EU Regulation
+""" .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#DeniedFlight
+
+:DeniedFlight rdf:type owl:Class ;
+              
+              rdfs:subClassOf :FlightIncident ;
+              
+              rdfs:comment """Denied flight means the air carrier refusal to carry passengers on a flight, although they have presented themselves for boarding under the conditions laid down in Article 3(2) of the (EC) Regulation, except where there are reasonable grounds to deny them boarding, such as reasons of health, safety or security, or inadequate travel documentation.
+""" .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#FlightIncident
+
+:FlightIncident rdf:type owl:Class ;
+                
+                rdfs:subClassOf :FlightIncident ,
+                                <http://purl.org/NET/atpir-fi#Incident> ;
+                
+                rdfs:comment "Incident related to a flight." .
+
+
+
+###  http://purl.oclc.org/NET/Complaint#ServiceIncident
+
+:ServiceIncident rdf:type owl:Class ;
+                 
+                 rdfs:subClassOf <http://purl.org/NET/atpir-fi#Incident> ;
+                 
+                 rdfs:comment "Incident related to the service provided." .
+
+
+
+###  http://purl.org/NET/atpir-fi#Airport
+
+<http://purl.org/NET/atpir-fi#Airport> rdf:type owl:Class ;
+                                       
+                                       rdfs:subClassOf <http://purl.org/NET/atpir-fi#Context> ;
+                                       
+                                       rdfs:comment "An airport is a location where aircraft such as fixed-wing aircraft, helicopters, and blimps take off and land. Aircraft may be stored or maintained at an airport. An airport consists of at least one surface such as a runway for a plane to take off and land, a helipad, or water for takeoffs and landings, and often includes buildings such as control towers, hangars and terminal buildings." .
+
+
+
+###  http://purl.org/NET/atpir-fi#BadQuality
+
+<http://purl.org/NET/atpir-fi#BadQuality> rdf:type owl:Class ;
+                                          
+                                          rdfs:subClassOf :ServiceIncident ;
+                                          
+                                          rdfs:comment "Incident related to a bad quality service provided by the air carrier." .
+
+
+
+###  http://purl.org/NET/atpir-fi#BankrupcyIncident
+
+<http://purl.org/NET/atpir-fi#BankrupcyIncident> rdf:type owl:Class ;
+                                                 
+                                                 rdfs:subClassOf <http://purl.org/NET/atpir-fi#Incident> .
+
+
+
+###  http://purl.org/NET/atpir-fi#ConnectingFlight
+
+<http://purl.org/NET/atpir-fi#ConnectingFlight> rdf:type owl:Class ;
+                                                
+                                                rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                                
+                                                rdfs:comment "A connecting flight is a flight with an intermediate stop and a change of aircraft (possibly a change of airlines and flight number." .
+
+
+
+###  http://purl.org/NET/atpir-fi#Context
+
+<http://purl.org/NET/atpir-fi#Context> rdf:type owl:Class ;
+                                       
+                                       rdfs:comment "A set of circumstances of facts that surround a flight." .
+
+
+
+###  http://purl.org/NET/atpir-fi#DamagedBaggage
+
+<http://purl.org/NET/atpir-fi#DamagedBaggage> rdf:type owl:Class ;
+                                              
+                                              rdfs:subClassOf :BaggageIncident ;
+                                              
+                                              rdfs:comment "Incident related to damaged baggage" .
+
+
+
+###  http://purl.org/NET/atpir-fi#DelayedBaggage
+
+<http://purl.org/NET/atpir-fi#DelayedBaggage> rdf:type owl:Class ;
+                                              
+                                              rdfs:subClassOf :BaggageIncident ;
+                                              
+                                              rdfs:comment "Incident related to a delayed baggage" .
+
+
+
+###  http://purl.org/NET/atpir-fi#DirectFlight
+
+<http://purl.org/NET/atpir-fi#DirectFlight> rdf:type owl:Class ;
+                                            
+                                            rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                            
+                                            rdfs:comment "A direct flight  is a flight with one or more intermediate stops but no change of aircraft and no change of flight numbers. The stop over may either be to get new passengers (or allow some to disembark) or a mere technical stop over (i.e., for refuelling)." .
+
+
+
+###  http://purl.org/NET/atpir-fi#DomesticFlight
+
+<http://purl.org/NET/atpir-fi#DomesticFlight> rdf:type owl:Class ;
+                                              
+                                              rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                              
+                                              rdfs:comment "A domestic flight is a form of commercial flight where the departure and the arrival take place in the same country." .
+
+
+
+###  http://purl.org/NET/atpir-fi#Downgrading
+
+<http://purl.org/NET/atpir-fi#Downgrading> rdf:type owl:Class ;
+                                           
+                                           rdfs:subClassOf <http://purl.org/NET/atpir-fi#SeatMisplacement> .
+
+
+
+###  http://purl.org/NET/atpir-fi#Event
+
+<http://purl.org/NET/atpir-fi#Event> rdf:type owl:Class .
+
+
+
+###  http://purl.org/NET/atpir-fi#Flight
+
+<http://purl.org/NET/atpir-fi#Flight> rdf:type owl:Class ;
+                                      
+                                      rdfs:subClassOf <http://purl.org/NET/atpir-fi#Context> ;
+                                      
+                                      rdfs:comment "A flight is a scheduled route by plane between designated airports. " .
+
+
+
+###  http://purl.org/NET/atpir-fi#Incident
+
+<http://purl.org/NET/atpir-fi#Incident> rdf:type owl:Class ;
+                                        
+                                        rdfs:subClassOf <http://purl.org/NET/atpir-fi#Event> ;
+                                        
+                                        rdfs:comment "An ocurrence or event related to the flight, baggage or service." ;
+                                        
+                                        skos:broader lkif-core:Occurrence .
+
+
+
+###  http://purl.org/NET/atpir-fi#IntraCommunityFlight
+
+<http://purl.org/NET/atpir-fi#IntraCommunityFlight> rdf:type owl:Class ;
+                                                    
+                                                    rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                                    
+                                                    rdfs:comment "Intra-Community flight means the movement of an air carrier between two Community airports, without any stopovers, and which does not start from or end at a non-Community airport." .
+
+
+
+###  http://purl.org/NET/atpir-fi#Irresponsiveness
+
+<http://purl.org/NET/atpir-fi#Irresponsiveness> rdf:type owl:Class ;
+                                                
+                                                rdfs:subClassOf :ServiceIncident ;
+                                                
+                                                rdfs:comment "Incident related to the difficulties in getting information from the air carrier on where and how to complain and on claim redress (e.g. no phone number, no email or all telephone lines busy, no response to the complaint). " .
+
+
+
+###  http://purl.org/NET/atpir-fi#LongHaulFlight
+
+<http://purl.org/NET/atpir-fi#LongHaulFlight> rdf:type owl:Class ;
+                                              
+                                              rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                              
+                                              rdfs:comment "Long-haul flight is a flight whose length typically requires over six and a half hours to cover and is often a non-stop flight." .
+
+
+
+###  http://purl.org/NET/atpir-fi#LostBaggage
+
+<http://purl.org/NET/atpir-fi#LostBaggage> rdf:type owl:Class ;
+                                           
+                                           rdfs:subClassOf :BaggageIncident ;
+                                           
+                                           rdfs:comment "Incident related to lost baggage" .
+
+
+
+###  http://purl.org/NET/atpir-fi#MediumHaulFlight
+
+<http://purl.org/NET/atpir-fi#MediumHaulFlight> rdf:type owl:Class ;
+                                                
+                                                rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                                
+                                                rdfs:comment "A medium-haul flight is often defined as having a flight length that takes one and a half hours or more to complete, which roughly correlates to an absolute distance over 800 km." .
+
+
+
+###  http://purl.org/NET/atpir-fi#NonStopFlight
+
+<http://purl.org/NET/atpir-fi#NonStopFlight> rdf:type owl:Class ;
+                                             
+                                             rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                             
+                                             rdfs:comment "Non-stop flight is a flight made without intermediate stops between source and destination." .
+
+
+
+###  http://purl.org/NET/atpir-fi#RoundTripFlight
+
+<http://purl.org/NET/atpir-fi#RoundTripFlight> rdf:type owl:Class ;
+                                               
+                                               rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                               
+                                               rdfs:comment """Round trip flight combines a one-way trip and the return trip back to the airport of origin.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-fi#SeatMisplacement
+
+<http://purl.org/NET/atpir-fi#SeatMisplacement> rdf:type owl:Class ;
+                                                
+                                                rdfs:subClassOf :ServiceIncident .
+
+
+
+###  http://purl.org/NET/atpir-fi#ShortHaulFlight
+
+<http://purl.org/NET/atpir-fi#ShortHaulFlight> rdf:type owl:Class ;
+                                               
+                                               rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                               
+                                               rdfs:comment "A short-haul flight or domestic flight (where the destination airport is in the same country as the departure airport) is commonly categorized as having a flight length taking under one and a half hours to complete. This roughly correlates to an absolute distance of no more than 800 km." .
+
+
+
+###  http://purl.org/NET/atpir-fi#SingularFlight
+
+<http://purl.org/NET/atpir-fi#SingularFlight> rdf:type owl:Class ;
+                                              
+                                              rdfs:subClassOf <http://purl.org/NET/atpir-fi#Flight> ;
+                                              
+                                              rdfs:comment "Singular flight is a one way flight." .
+
+
+
+###  http://purl.org/NET/atpir-fi#UnfairCommercialPractises
+
+<http://purl.org/NET/atpir-fi#UnfairCommercialPractises> rdf:type owl:Class ;
+                                                         
+                                                         rdfs:subClassOf :ServiceIncident ;
+                                                         
+                                                         rdfs:comment """Commercial practices which are unhonest practises; misleading commercial practices (such as false claims, deceiving information or leaving out important information that would affect the consumer decision to buy something); and aggressive sales techniques that harass the consumer into buying something under pressure, Article 5 of the Directive 2005/29/EC of 11 May 2005 concerning unfair business-to-consumer commercial practices in the internal market. 
+""" .
+
+
+
+###  http://purl.org/NET/atpir-fi#Upgrading
+
+<http://purl.org/NET/atpir-fi#Upgrading> rdf:type owl:Class ;
+                                         
+                                         rdfs:subClassOf <http://purl.org/NET/atpir-fi#SeatMisplacement> .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-fi#ExtraordinaryCircumstances
+
+<http://purl.org/NET/atpir-fi#ExtraordinaryCircumstances> rdf:type owl:NamedIndividual .
+
+
+
+
+###  Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net
+

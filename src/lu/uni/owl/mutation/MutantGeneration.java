@@ -5,8 +5,11 @@ import java.util.List;
 
 public class MutantGeneration {
 
+	protected static final String ONTOLOGY = "atpir-fi";
+
 	protected static final String OWL_PATH = System.getProperty("user.dir") + "/resources";
-	protected static final String OWL_FILE = "dataprotection.owl";
+	protected static final String OWL_FILE = ONTOLOGY + ".owl";
+	protected static final String MUTANT_PATH = OWL_PATH + "/mutants/" + ONTOLOGY;
 
 	private Ontology ontology;
 
@@ -27,7 +30,7 @@ public class MutantGeneration {
 		MutantGeneration mutantGeneration = new MutantGeneration();
 		List<MutantGenerator> mutants = mutantGeneration.generateMutants();
 		for (MutantGenerator mutant : mutants)
-			mutant.save(OWL_PATH, mutant.ontology.getVersionIRI() + ".owl");
+			mutant.save(MUTANT_PATH, mutant.ontology.getVersionIRI() + ".owl");
 	}
 
 }

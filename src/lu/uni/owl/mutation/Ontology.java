@@ -82,7 +82,7 @@ public class Ontology {
 				return label.getLiteral();
 			}
 		}
-		return null;
+		return cls.getIRI().getShortForm();
 	}
 
 	public Set<OWLAnnotation> getLabels(OWLEntity e) {
@@ -159,9 +159,11 @@ public class Ontology {
 	public Set<OWLClass> getSubClasses(OWLClass cls) {
 		Set<OWLClass> ret = new HashSet<OWLClass>();
 		for (OWLClassExpression s : EntitySearcher.getSubClasses(cls, ontology)) {
-			OWLClass c = (OWLClass) s;
-			ret.add(c);
-			ret.addAll(getSubClasses(c));
+			OWLClass child = s.asOWLClass();
+			if (child != cls) {
+				ret.add(child);
+				ret.addAll(getSubClasses(child));
+			}
 		}
 		return ret;
 	}
