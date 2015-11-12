@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MutantGeneration {
 
-	protected static final String ONTOLOGY = "atpir-fi";
+	protected static final String ONTOLOGY = "dataprotection";
 
 	protected static final String OWL_PATH = System.getProperty("user.dir") + "/resources";
 	protected static final String OWL_FILE = ONTOLOGY + ".owl";

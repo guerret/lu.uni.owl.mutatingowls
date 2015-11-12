@@ -2,6 +2,7 @@ package lu.uni.owl.mutation;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -17,6 +18,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import com.google.common.base.Optional;
@@ -66,10 +68,20 @@ public abstract class MutantGenerator {
 		return null;
 	}
 
+	protected List<MutantGenerator> removeEntity(OWLEntity e) {
+		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		MutantGenerator mutant = copy(this, "ERE", ontology.getLabel(e), "deleted");
+		OWLEntityRemover remover = new OWLEntityRemover(Collections.singleton(mutant.ontology.getOntology()));
+		e.accept(remover);
+		manager.applyChanges(remover.getChanges());
+		ret.add(mutant);
+		return ret;
+	}
+
 	protected List<MutantGenerator> removeLabels(OWLEntity entity) {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLAnnotation a : ontology.getLabels(entity)) {
-			MutantGenerator mutant = copy(this, "rlabel", ontology.getLabel(entity),
+			MutantGenerator mutant = copy(this, "ERL", ontology.getLabel(entity),
 					((OWLLiteral) a.getValue()).getLang());
 			manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(),
 					factory.getOWLAnnotationAssertionAxiom(entity.getIRI(), a)));
@@ -82,7 +94,7 @@ public abstract class MutantGenerator {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLAnnotation a : ontology.getLabels(entity)) {
 			OWLLiteral label = (OWLLiteral) a.getValue();
-			MutantGenerator mutant = copy(this, "clang", ontology.getLabel(entity), label.getLang());
+			MutantGenerator mutant = copy(this, "ECL", ontology.getLabel(entity), label.getLang());
 			List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 			OWLLiteral lbl = factory.getOWLLiteral(label.getLiteral(), "xx");
 			OWLAnnotation newLabel = factory
