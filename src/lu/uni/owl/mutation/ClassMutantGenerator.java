@@ -34,12 +34,14 @@ public class ClassMutantGenerator extends MutantGenerator {
 	}
 
 	private List<MutantGenerator> removeSubclassAxioms(OWLClass cls) {
+		String opname = "CRS";
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		int counter = 0;
 		for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
 			String parentLabel = s.isAnonymous() ? "anonymousClass" + String.format("%04d", counter++)
 					: ontology.getLabel(s.asOWLClass());
-			ClassMutantGenerator mutant = (ClassMutantGenerator) copy(this, "CRS", ontology.getLabel(cls), parentLabel);
+			ClassMutantGenerator mutant = (ClassMutantGenerator) copy(this, opname, ontology.getLabel(cls),
+					parentLabel);
 			manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(), factory.getOWLSubClassOfAxiom(cls, s)));
 			ret.add(mutant);
 		}
@@ -66,12 +68,13 @@ public class ClassMutantGenerator extends MutantGenerator {
 	}
 
 	private List<MutantGenerator> swapWithParents(OWLClass cls) {
+		String opname = "CSC";
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
 			if (!s.isAnonymous()) {
 				OWLClass parent = s.asOWLClass();
 				ClassMutantGenerator mutant = new ClassMutantGenerator(
-						copy(this, "CSC", ontology.getLabel(cls), ontology.getLabel(parent)));
+						copy(this, opname, ontology.getLabel(cls), ontology.getLabel(parent)));
 				mutant.swapClasses(cls, parent);
 				ret.add(mutant);
 			}

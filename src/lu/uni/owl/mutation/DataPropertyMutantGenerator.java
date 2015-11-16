@@ -27,7 +27,9 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLDataProperty p : ontology.getDataProperties())
 			if (!p.isTopEntity()) {
-				ret.addAll(reassignDataProperty(p));
+				ret.addAll(removeEntity(p));
+				ret.addAll(reassignDataPropertyToSuperclass(p));
+				ret.addAll(reassignDataPropertyToSubclass(p));
 				ret.addAll(removeDataTypes(p));
 				ret.addAll(removeLabels(p));
 				ret.addAll(changeLabelLanguage(p));
@@ -42,7 +44,8 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 		manager.applyChanges(changes);
 	}
 
-	private List<MutantGenerator> reassignDataProperty(OWLDataProperty property) {
+	private List<MutantGenerator> reassignDataPropertyToSuperclass(OWLDataProperty property) {
+		String opname = "DAP";
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLClassExpression d : ontology.getDataPropertyDomains(property)) {
 			if (!d.isAnonymous()) {
@@ -51,16 +54,27 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 					if (!s.isAnonymous()) {
 						OWLClass c = s.asOWLClass();
 						DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
-								copy(this, "dp2parent", ontology.getLabel(property), ontology.getLabel(c)));
+								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
 						mutant.reassignDataPropertyDomain(property, cls, c);
 						ret.add(mutant);
 					}
 				}
+			}
+		}
+		return ret;
+	}
+
+	private List<MutantGenerator> reassignDataPropertyToSubclass(OWLDataProperty property) {
+		String opname = "DAC";
+		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		for (OWLClassExpression d : ontology.getDataPropertyDomains(property)) {
+			if (!d.isAnonymous()) {
+				OWLClass cls = d.asOWLClass();
 				for (OWLClassExpression s : ontology.getSubClasses(cls)) {
 					if (!s.isAnonymous()) {
 						OWLClass c = s.asOWLClass();
 						DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
-								copy(this, "dp2child", ontology.getLabel(property), ontology.getLabel(c)));
+								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
 						mutant.reassignDataPropertyDomain(property, cls, c);
 						ret.add(mutant);
 					}
@@ -71,13 +85,14 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 	}
 
 	private List<MutantGenerator> removeDataTypes(OWLDataProperty property) {
+		String opname = "DRT";
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLDataRange r : ontology.getDataPropertyRanges(property)) {
 			OWLDatatype type = r.asOWLDatatype();
 			if (!type.isTopDatatype()) {
 				String typeLabel = ontology.getLabel(type).replace(':', '_');
 				DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
-						copy(this, "dptype", ontology.getLabel(property), typeLabel));
+						copy(this, opname, ontology.getLabel(property), typeLabel));
 				List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 				factory.getOWLDataPropertyRangeAxiom(property, factory.getRDFPlainLiteral());
 				changes.add(new RemoveAxiom(mutant.ontology.getOntology(),

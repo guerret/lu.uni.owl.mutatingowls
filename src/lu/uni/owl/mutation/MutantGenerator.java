@@ -69,8 +69,9 @@ public abstract class MutantGenerator {
 	}
 
 	protected List<MutantGenerator> removeEntity(OWLEntity e) {
+		String opname = "ERE";
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
-		MutantGenerator mutant = copy(this, "ERE", ontology.getLabel(e), "deleted");
+		MutantGenerator mutant = copy(this, opname, ontology.getLabel(e), "deleted");
 		OWLEntityRemover remover = new OWLEntityRemover(Collections.singleton(mutant.ontology.getOntology()));
 		e.accept(remover);
 		manager.applyChanges(remover.getChanges());
@@ -79,9 +80,10 @@ public abstract class MutantGenerator {
 	}
 
 	protected List<MutantGenerator> removeLabels(OWLEntity entity) {
+		String opname = "ERL";
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLAnnotation a : ontology.getLabels(entity)) {
-			MutantGenerator mutant = copy(this, "ERL", ontology.getLabel(entity),
+			MutantGenerator mutant = copy(this, opname, ontology.getLabel(entity),
 					((OWLLiteral) a.getValue()).getLang());
 			manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(),
 					factory.getOWLAnnotationAssertionAxiom(entity.getIRI(), a)));
@@ -91,10 +93,11 @@ public abstract class MutantGenerator {
 	}
 
 	protected List<MutantGenerator> changeLabelLanguage(OWLEntity entity) {
+		String opname = "ECL";
 		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
 		for (OWLAnnotation a : ontology.getLabels(entity)) {
 			OWLLiteral label = (OWLLiteral) a.getValue();
-			MutantGenerator mutant = copy(this, "ECL", ontology.getLabel(entity), label.getLang());
+			MutantGenerator mutant = copy(this, opname, ontology.getLabel(entity), label.getLang());
 			List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 			OWLLiteral lbl = factory.getOWLLiteral(label.getLiteral(), "xx");
 			OWLAnnotation newLabel = factory
