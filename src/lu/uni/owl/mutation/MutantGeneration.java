@@ -1,6 +1,7 @@
 package lu.uni.owl.mutation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MutantGeneration {
@@ -17,20 +18,33 @@ public class MutantGeneration {
 		ontology = new Ontology(OWL_PATH, OWL_FILE);
 	}
 
-	private List<MutantGenerator> generateMutants() {
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
-		ret.addAll(new ClassMutantGenerator(ontology).generateMutants());
-		ret.addAll(new ObjectPropertyMutantGenerator(ontology).generateMutants());
-		ret.addAll(new DataPropertyMutantGenerator(ontology).generateMutants());
-		ret.addAll(new IndividualMutantGenerator(ontology).generateMutants());
+	private HashMap<String, List<MutantGenerator>> generateMutants() {
+		HashMap<String, List<MutantGenerator>> ret = new HashMap<String, List<MutantGenerator>>();
+		List<HashMap<String, List<MutantGenerator>>> generators = new ArrayList<HashMap<String, List<MutantGenerator>>>();
+		generators.add(new ClassMutantGenerator(ontology).generateMutants());
+		generators.add(new ObjectPropertyMutantGenerator(ontology).generateMutants());
+		generators.add(new DataPropertyMutantGenerator(ontology).generateMutants());
+		generators.add(new IndividualMutantGenerator(ontology).generateMutants());
+		for (HashMap<String, List<MutantGenerator>> generator : generators) {
+			for (String key : generator.keySet()) {
+				if (ret.containsKey(key))
+					ret.get(key).addAll(generator.get(key));
+				else
+					ret.put(key, generator.get(key));
+			}
+		}
 		return ret;
 	}
 
 	public static void main(String[] args) {
 		MutantGeneration mutantGeneration = new MutantGeneration();
-		List<MutantGenerator> mutants = mutantGeneration.generateMutants();
-		for (MutantGenerator mutant : mutants)
-			mutant.save(MUTANT_PATH, mutant.ontology.getVersionIRI() + ".owl");
+		HashMap<String, List<MutantGenerator>> mutants = mutantGeneration.generateMutants();
+		for (String operators : mutants.keySet()) {
+			List<MutantGenerator> mutantSet = mutants.get(operators);
+			String path = MUTANT_PATH + "/" + operators;
+			for (MutantGenerator mutant : mutantSet)
+				mutant.save(path, mutant.ontology.getVersionIRI() + ".owl");
+		}
 	}
 
 }

@@ -1,6 +1,7 @@
 package lu.uni.owl.mutation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -20,22 +21,34 @@ public class IndividualMutantGenerator extends MutantGenerator {
 	}
 
 	@Override
-	public List<MutantGenerator> generateMutants() {
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+	public HashMap<String, List<MutantGenerator>> generateMutants() {
+		HashMap<String, List<MutantGenerator>> ret = new HashMap<String, List<MutantGenerator>>();
 		for (OWLNamedIndividual i : ontology.getIndividuals()) {
-			ret.addAll(removeEntity(i));
-			ret.addAll(removeTypes(i));
-			ret.addAll(assignToSuperclass(i));
-			ret.addAll(assignToSubclass(i));
-			ret.addAll(removeLabels(i));
-			ret.addAll(changeLabelLanguage(i));
+			List<OpData> ops = getOps(i);
+			for (OpData op : ops) {
+				String opName = op.getOpName();
+				if (!ret.containsKey(opName))
+					ret.put(opName, new ArrayList<MutantGenerator>());
+				ret.get(opName).addAll(op);
+			}
 		}
 		return ret;
 	}
 
-	private List<MutantGenerator> removeTypes(OWLNamedIndividual individual) {
+	private List<OpData> getOps(OWLNamedIndividual i) {
+		List<OpData> ops = new ArrayList<OpData>();
+		ops.add(removeEntity(i));
+		ops.add(removeTypes(i));
+		ops.add(assignToSuperclass(i));
+		ops.add(assignToSubclass(i));
+		ops.add(removeLabels(i));
+		ops.add(changeLabelLanguage(i));
+		return ops;
+	}
+
+	private OpData removeTypes(OWLNamedIndividual individual) {
 		String opname = "IRT";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		int counter = 0;
 		for (OWLClassExpression s : ontology.getIndividualTypes(individual)) {
 			String typeLabel = s.isAnonymous() ? "anonymousClass" + String.format("%04d", counter++)
@@ -49,9 +62,9 @@ public class IndividualMutantGenerator extends MutantGenerator {
 		return ret;
 	}
 
-	private List<MutantGenerator> assignToSuperclass(OWLNamedIndividual individual) {
+	private OpData assignToSuperclass(OWLNamedIndividual individual) {
 		String opname = "IAP";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		int counter = 0;
 		for (OWLClassExpression s : ontology.getIndividualTypes(individual))
 			if (!s.isAnonymous()) {
@@ -72,9 +85,9 @@ public class IndividualMutantGenerator extends MutantGenerator {
 		return ret;
 	}
 
-	private List<MutantGenerator> assignToSubclass(OWLNamedIndividual individual) {
+	private OpData assignToSubclass(OWLNamedIndividual individual) {
 		String opname = "IAC";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression s : ontology.getIndividualTypes(individual))
 			if (!s.isAnonymous()) {
 				for (OWLClassExpression p : ontology.getSubClasses(s.asOWLClass())) {

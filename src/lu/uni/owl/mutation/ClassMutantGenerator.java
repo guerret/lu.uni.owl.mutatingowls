@@ -1,6 +1,7 @@
 package lu.uni.owl.mutation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -20,22 +21,33 @@ public class ClassMutantGenerator extends MutantGenerator {
 	}
 
 	@Override
-	public List<MutantGenerator> generateMutants() {
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
-		for (OWLClass c : ontology.getClasses())
-			if (!c.isTopEntity()) {
-				ret.addAll(removeEntity(c));
-				ret.addAll(swapWithParents(c));
-				ret.addAll(removeSubclassAxioms(c));
-				ret.addAll(removeLabels(c));
-				ret.addAll(changeLabelLanguage(c));
+	public HashMap<String, List<MutantGenerator>> generateMutants() {
+		HashMap<String, List<MutantGenerator>> ret = new HashMap<String, List<MutantGenerator>>();
+		for (OWLClass c : ontology.getClasses()) {
+			List<OpData> ops = getOps(c);
+			for (OpData op : ops) {
+				String opName = op.getOpName();
+				if (!ret.containsKey(opName))
+					ret.put(opName, new ArrayList<MutantGenerator>());
+				ret.get(opName).addAll(op);
 			}
+		}
 		return ret;
 	}
 
-	private List<MutantGenerator> removeSubclassAxioms(OWLClass cls) {
+	private List<OpData> getOps(OWLClass c) {
+		List<OpData> ops = new ArrayList<OpData>();
+		ops.add(removeEntity(c));
+		ops.add(removeSubclassAxioms(c));
+		ops.add(swapWithParents(c));
+		ops.add(removeLabels(c));
+		ops.add(changeLabelLanguage(c));
+		return ops;
+	}
+
+	private OpData removeSubclassAxioms(OWLClass cls) {
 		String opname = "CRS";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		int counter = 0;
 		for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
 			String parentLabel = s.isAnonymous() ? "anonymousClass" + String.format("%04d", counter++)
@@ -67,9 +79,9 @@ public class ClassMutantGenerator extends MutantGenerator {
 		manager.applyChanges(changes);
 	}
 
-	private List<MutantGenerator> swapWithParents(OWLClass cls) {
+	private OpData swapWithParents(OWLClass cls) {
 		String opname = "CSC";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
 			if (!s.isAnonymous()) {
 				OWLClass parent = s.asOWLClass();

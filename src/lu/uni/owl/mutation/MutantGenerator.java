@@ -3,6 +3,7 @@ package lu.uni.owl.mutation;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -35,7 +36,7 @@ public abstract class MutantGenerator {
 		ontology = ont;
 	}
 
-	public abstract List<MutantGenerator> generateMutants();
+	public abstract HashMap<String, List<MutantGenerator>> generateMutants();
 
 	public MutantGenerator(MutantGenerator mut) {
 		manager = OWLManager.createOWLOntologyManager();
@@ -68,9 +69,9 @@ public abstract class MutantGenerator {
 		return null;
 	}
 
-	protected List<MutantGenerator> removeEntity(OWLEntity e) {
+	protected OpData removeEntity(OWLEntity e) {
 		String opname = "ERE";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		MutantGenerator mutant = copy(this, opname, ontology.getLabel(e), "deleted");
 		OWLEntityRemover remover = new OWLEntityRemover(Collections.singleton(mutant.ontology.getOntology()));
 		e.accept(remover);
@@ -79,9 +80,9 @@ public abstract class MutantGenerator {
 		return ret;
 	}
 
-	protected List<MutantGenerator> removeLabels(OWLEntity entity) {
+	protected OpData removeLabels(OWLEntity entity) {
 		String opname = "ERL";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLAnnotation a : ontology.getLabels(entity)) {
 			MutantGenerator mutant = copy(this, opname, ontology.getLabel(entity),
 					((OWLLiteral) a.getValue()).getLang());
@@ -92,9 +93,9 @@ public abstract class MutantGenerator {
 		return ret;
 	}
 
-	protected List<MutantGenerator> changeLabelLanguage(OWLEntity entity) {
+	protected OpData changeLabelLanguage(OWLEntity entity) {
 		String opname = "ECL";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLAnnotation a : ontology.getLabels(entity)) {
 			OWLLiteral label = (OWLLiteral) a.getValue();
 			MutantGenerator mutant = copy(this, opname, ontology.getLabel(entity), label.getLang());

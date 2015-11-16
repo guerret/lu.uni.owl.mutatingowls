@@ -1,6 +1,7 @@
 package lu.uni.owl.mutation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -21,26 +22,40 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 	}
 
 	@Override
-	public List<MutantGenerator> generateMutants() {
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+	public HashMap<String, List<MutantGenerator>> generateMutants() {
+		HashMap<String, List<MutantGenerator>> ret = new HashMap<String, List<MutantGenerator>>();
 		for (OWLObjectProperty p : ontology.getObjectProperties())
 			if (!p.isTopEntity()) {
-				ret.addAll(removeEntity(p));
-				ret.addAll(removeDomains(p));
-				ret.addAll(removeRanges(p));
-				ret.addAll(domainToRange(p));
-				ret.addAll(rangeToDomain(p));
-				ret.addAll(reassignObjectPropertyToSuperclass(p));
-				ret.addAll(reassignObjectPropertyToSubclass(p));
-				ret.addAll(removeLabels(p));
-				ret.addAll(changeLabelLanguage(p));
+				List<OpData> ops = getOps(p);
+				for (OpData op : ops) {
+					String opName = op.getOpName();
+					if (!ret.containsKey(opName))
+						ret.put(opName, new ArrayList<MutantGenerator>());
+					ret.get(opName).addAll(op);
+				}
 			}
 		return ret;
 	}
 
-	private List<MutantGenerator> removeDomains(OWLObjectProperty property) {
+	private List<OpData> getOps(OWLObjectProperty p) {
+		List<OpData> ops = new ArrayList<OpData>();
+		ops.add(removeEntity(p));
+		ops.add(removeDomains(p));
+		ops.add(removeRanges(p));
+		ops.add(domainToRange(p));
+		ops.add(rangeToDomain(p));
+		ops.add(reassignObjectPropertyDomainToSuperclass(p));
+		ops.add(reassignObjectPropertyDomainToSubclass(p));
+		ops.add(reassignObjectPropertyRangeToSuperclass(p));
+		ops.add(reassignObjectPropertyRangeToSubclass(p));
+		ops.add(removeLabels(p));
+		ops.add(changeLabelLanguage(p));
+		return ops;
+	}
+
+	private OpData removeDomains(OWLObjectProperty property) {
 		String opname = "OND";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression d : ontology.getObjectPropertyDomains(property)) {
 			if (!d.isAnonymous()) {
 				OWLClass domain = d.asOWLClass();
@@ -54,9 +69,9 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 		return ret;
 	}
 
-	private List<MutantGenerator> removeRanges(OWLObjectProperty property) {
+	private OpData removeRanges(OWLObjectProperty property) {
 		String opname = "ONR";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression r : ontology.getRanges(property)) {
 			if (!r.isAnonymous()) {
 				OWLClass domain = r.asOWLClass();
@@ -84,9 +99,9 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 		manager.applyChanges(changes);
 	}
 
-	private List<MutantGenerator> domainToRange(OWLObjectProperty property) {
+	private OpData domainToRange(OWLObjectProperty property) {
 		String opname = "ODR";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression d : ontology.getObjectPropertyDomains(property)) {
 			if (!d.isAnonymous()) {
 				OWLClass domain = d.asOWLClass();
@@ -99,9 +114,9 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 		return ret;
 	}
 
-	private List<MutantGenerator> rangeToDomain(OWLObjectProperty property) {
+	private OpData rangeToDomain(OWLObjectProperty property) {
 		String opname = "ORD";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression r : ontology.getRanges(property)) {
 			if (!r.isAnonymous()) {
 				OWLClass range = r.asOWLClass();
@@ -121,9 +136,9 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 		manager.applyChanges(changes);
 	}
 
-	private List<MutantGenerator> reassignObjectPropertyToSuperclass(OWLObjectProperty property) {
-		String opname = "OAP";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+	private OpData reassignObjectPropertyDomainToSuperclass(OWLObjectProperty property) {
+		String opname = "ODP";
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression d : ontology.getObjectPropertyDomains(property)) {
 			if (!d.isAnonymous()) {
 				OWLClass cls = d.asOWLClass();
@@ -141,9 +156,9 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 		return ret;
 	}
 
-	private List<MutantGenerator> reassignObjectPropertyToSubclass(OWLObjectProperty property) {
-		String opname = "OAC";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+	private OpData reassignObjectPropertyDomainToSubclass(OWLObjectProperty property) {
+		String opname = "ODC";
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression d : ontology.getObjectPropertyDomains(property)) {
 			if (!d.isAnonymous()) {
 				OWLClass cls = d.asOWLClass();
@@ -153,6 +168,53 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
 						mutant.reassignObjectPropertyDomain(property, cls, c);
+						ret.add(mutant);
+					}
+				}
+			}
+		}
+		return ret;
+	}
+
+	private void reassignObjectPropertyRange(OWLObjectProperty property, OWLClass domain, OWLClass target) {
+		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+		changes.add(new RemoveAxiom(ontology.getOntology(), factory.getOWLObjectPropertyRangeAxiom(property, domain)));
+		changes.add(new AddAxiom(ontology.getOntology(), factory.getOWLObjectPropertyRangeAxiom(property, target)));
+		manager.applyChanges(changes);
+	}
+
+	private OpData reassignObjectPropertyRangeToSuperclass(OWLObjectProperty property) {
+		String opname = "ORP";
+		OpData ret = new OpData(opname);
+		for (OWLClassExpression d : ontology.getRanges(property)) {
+			if (!d.isAnonymous()) {
+				OWLClass cls = d.asOWLClass();
+				for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
+					if (!s.isAnonymous()) {
+						OWLClass c = s.asOWLClass();
+						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
+								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
+						mutant.reassignObjectPropertyRange(property, cls, c);
+						ret.add(mutant);
+					}
+				}
+			}
+		}
+		return ret;
+	}
+
+	private OpData reassignObjectPropertyRangeToSubclass(OWLObjectProperty property) {
+		String opname = "ORC";
+		OpData ret = new OpData(opname);
+		for (OWLClassExpression d : ontology.getRanges(property)) {
+			if (!d.isAnonymous()) {
+				OWLClass cls = d.asOWLClass();
+				for (OWLClassExpression s : ontology.getSubClasses(cls)) {
+					if (!s.isAnonymous()) {
+						OWLClass c = s.asOWLClass();
+						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
+								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
+						mutant.reassignObjectPropertyRange(property, cls, c);
 						ret.add(mutant);
 					}
 				}

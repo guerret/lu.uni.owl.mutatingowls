@@ -1,6 +1,7 @@
 package lu.uni.owl.mutation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -23,18 +24,30 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 	}
 
 	@Override
-	public List<MutantGenerator> generateMutants() {
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+	public HashMap<String, List<MutantGenerator>> generateMutants() {
+		HashMap<String, List<MutantGenerator>> ret = new HashMap<String, List<MutantGenerator>>();
 		for (OWLDataProperty p : ontology.getDataProperties())
 			if (!p.isTopEntity()) {
-				ret.addAll(removeEntity(p));
-				ret.addAll(reassignDataPropertyToSuperclass(p));
-				ret.addAll(reassignDataPropertyToSubclass(p));
-				ret.addAll(removeDataTypes(p));
-				ret.addAll(removeLabels(p));
-				ret.addAll(changeLabelLanguage(p));
+				List<OpData> ops = getOps(p);
+				for (OpData op : ops) {
+					String opName = op.getOpName();
+					if (!ret.containsKey(opName))
+						ret.put(opName, new ArrayList<MutantGenerator>());
+					ret.get(opName).addAll(op);
+				}
 			}
 		return ret;
+	}
+
+	private List<OpData> getOps(OWLDataProperty p) {
+		List<OpData> ops = new ArrayList<OpData>();
+		ops.add(removeEntity(p));
+		ops.add(reassignDataPropertyToSuperclass(p));
+		ops.add(reassignDataPropertyToSubclass(p));
+		ops.add(removeDataTypes(p));
+		ops.add(removeLabels(p));
+		ops.add(changeLabelLanguage(p));
+		return ops;
 	}
 
 	private void reassignDataPropertyDomain(OWLDataProperty property, OWLClass domain, OWLClass target) {
@@ -44,9 +57,9 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 		manager.applyChanges(changes);
 	}
 
-	private List<MutantGenerator> reassignDataPropertyToSuperclass(OWLDataProperty property) {
+	private OpData reassignDataPropertyToSuperclass(OWLDataProperty property) {
 		String opname = "DAP";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression d : ontology.getDataPropertyDomains(property)) {
 			if (!d.isAnonymous()) {
 				OWLClass cls = d.asOWLClass();
@@ -64,9 +77,9 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 		return ret;
 	}
 
-	private List<MutantGenerator> reassignDataPropertyToSubclass(OWLDataProperty property) {
+	private OpData reassignDataPropertyToSubclass(OWLDataProperty property) {
 		String opname = "DAC";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLClassExpression d : ontology.getDataPropertyDomains(property)) {
 			if (!d.isAnonymous()) {
 				OWLClass cls = d.asOWLClass();
@@ -84,9 +97,9 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 		return ret;
 	}
 
-	private List<MutantGenerator> removeDataTypes(OWLDataProperty property) {
+	private OpData removeDataTypes(OWLDataProperty property) {
 		String opname = "DRT";
-		List<MutantGenerator> ret = new ArrayList<MutantGenerator>();
+		OpData ret = new OpData(opname);
 		for (OWLDataRange r : ontology.getDataPropertyRanges(property)) {
 			OWLDatatype type = r.asOWLDatatype();
 			if (!type.isTopDatatype()) {
