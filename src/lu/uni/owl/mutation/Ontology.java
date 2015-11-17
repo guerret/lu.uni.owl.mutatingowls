@@ -24,6 +24,7 @@ import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.search.EntitySearcher;
+import org.semanticweb.owlapi.util.AutoIRIMapper;
 
 public class Ontology {
 
@@ -32,6 +33,7 @@ public class Ontology {
 
 	public Ontology(String path, String fileName) {
 		manager = OWLManager.createOWLOntologyManager();
+		manager.getIRIMappers().add(new AutoIRIMapper(new File(MutantGeneration.OWL_PATH), true));
 		manager.getOWLDataFactory();
 		ontology = load(path + File.separator + fileName);
 		System.out.println("Number of axioms: " + ontology.getAxiomCount());

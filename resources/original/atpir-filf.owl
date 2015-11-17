@@ -1,0 +1,791 @@
+@prefix : <http://purl.org/NET/atpir-filf#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/TR/skos-reference#> .
+@prefix atpir-cw: <http://purl.oclc.org/NET/atpir-cw#> .
+@prefix atpir-fi: <http://purl.oclc.org/NET/atpir-fi#> .
+@prefix lkif-core: <http://www.estrellaproject.org/lkif-core/lkif-core.owl#> .
+@base <http://purl.org/NET/atpir-filf> .
+
+<http://purl.org/NET/atpir-filf> rdf:type owl:Ontology ;
+                                 
+                                 dct:contributor "Victor Rodriguez-Doncel" ,
+                                                 "Cristiana Santos" ;
+                                 
+                                 owl:versionInfo "1.0" ;
+                                 
+                                 rdfs:comment """This is an ontology on the EU Flight Incidents Legal Framework. 
+The ontology models the policies and the legal sources that establishes the passenger rights.
+ 
+""" ;
+                                 
+                                 owl:imports <http://purl.org/NET/atpir-cw> ,
+                                             <http://purl.org/NET/atpir-fi> ;
+                                 
+                                 dct:license <http://purl.org/NET/rdflicense/cc-by> .
+
+
+#################################################################
+#
+#    Annotation properties
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-filf#definedBy
+
+:definedBy rdf:type owl:AnnotationProperty ;
+           
+           rdfs:comment "declares which legal source defines the rights" .
+
+
+
+###  http://purl.org/NET/atpir-filf#rightTo
+
+:rightTo rdf:type owl:AnnotationProperty .
+
+
+
+###  http://www.w3.org/TR/skos-reference#broader
+
+skos:broader rdf:type owl:AnnotationProperty .
+
+
+
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-filf#compelledPassengersRights
+
+:compelledPassengersRights rdf:type owl:ObjectProperty ;
+                           
+                           rdfs:range :CompelledPassengerRight ;
+                           
+                           rdfs:domain :DeniedFlightRight .
+
+
+
+###  http://purl.org/NET/atpir-filf#dependsOn
+
+:dependsOn rdf:type owl:ObjectProperty ;
+           
+           rdfs:range :ContextOfDelayedFlight ;
+           
+           rdfs:domain :DelayedFlightRight .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasExemption
+
+:hasExemption rdf:type owl:ObjectProperty ;
+              
+              rdfs:domain :Compensation ;
+              
+              rdfs:range :ExemptionOfCompensation .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasLegalSource
+
+:hasLegalSource rdf:type owl:ObjectProperty ;
+                
+                rdfs:range :EU_AirTransportLaw ;
+                
+                rdfs:domain :PassengerRight .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasPassengerChoice
+
+:hasPassengerChoice rdf:type owl:ObjectProperty ;
+                    
+                    rdfs:domain :FlightIncidentLegalFramework ;
+                    
+                    rdfs:range :PassengerChoice .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasScopeOfApplication
+
+:hasScopeOfApplication rdf:type owl:ObjectProperty ;
+                       
+                       rdfs:range :ScopeOfApplication ;
+                       
+                       rdfs:domain <http://purl.org/NET/atpir-filf#EC_Regulation_261/2004> .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasSources
+
+:hasSources rdf:type owl:ObjectProperty ;
+            
+            rdfs:domain :FlightIncidentLegalFramework ;
+            
+            rdfs:range :Source .
+
+
+
+###  http://purl.org/NET/atpir-filf#rightTo
+
+:rightTo rdf:type owl:ObjectProperty ;
+         
+         rdfs:domain atpir-cw:Passenger ;
+         
+         rdfs:range :PassengerRight .
+
+
+
+###  http://purl.org/NET/atpir-filf#underContextOf
+
+:underContextOf rdf:type owl:ObjectProperty ;
+                
+                rdfs:domain :ContextOfDelayedFlight .
+
+
+
+###  http://purl.org/NET/atpir-filf#volunteersRights
+
+:volunteersRights rdf:type owl:ObjectProperty ;
+                  
+                  rdfs:domain :DeniedFlightRight ;
+                  
+                  rdfs:range :VolunteersRight .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-cw#PassengerFullAddress
+
+<http://purl.org/NET/atpir-cw#PassengerFullAddress> rdfs:subPropertyOf <http://purl.org/NET/atpir-cw#PassengerCountry> .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasCompensationOf_250Euro
+
+:hasCompensationOf_250Euro rdf:type owl:DatatypeProperty ;
+                           
+                           rdfs:domain :Compensation ;
+                           
+                           rdfs:range xsd:string .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasCompensationOf_400Euro
+
+:hasCompensationOf_400Euro rdf:type owl:DatatypeProperty ;
+                           
+                           rdfs:domain :Compensation ;
+                           
+                           rdfs:range xsd:string .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasCompensationOf_600Euro
+
+:hasCompensationOf_600Euro rdf:type owl:DatatypeProperty ;
+                           
+                           rdfs:domain :Compensation ;
+                           
+                           rdfs:range xsd:string .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasDelayedLength_2HoursOrMore
+
+:hasDelayedLength_2HoursOrMore rdf:type owl:DatatypeProperty ;
+                               
+                               rdfs:comment "A flight with a delayed length of 2 hours or more" ;
+                               
+                               rdfs:domain :ContextOfDelayedFlight ;
+                               
+                               rdfs:subPropertyOf :hasDelayedLength_3HoursOrMore ;
+                               
+                               rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasDelayedLength_3HoursOrMore
+
+:hasDelayedLength_3HoursOrMore rdf:type owl:DatatypeProperty ;
+                               
+                               rdfs:comment "A flight with a delayed length of 3 hours or more." ;
+                               
+                               rdfs:domain :ContextOfDelayedFlight ;
+                               
+                               rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasDelayedLength_4HoursOrMore
+
+:hasDelayedLength_4HoursOrMore rdf:type owl:DatatypeProperty ;
+                               
+                               rdfs:comment "A flight with a delayed length of 4 hours or more." ;
+                               
+                               rdfs:domain :ContextOfDelayedFlight ;
+                               
+                               rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasDelayedLength_5HoursOrMore
+
+:hasDelayedLength_5HoursOrMore rdf:type owl:DatatypeProperty ;
+                               
+                               rdfs:comment "A flight with a delayed length of 5 hours or more." ;
+                               
+                               rdfs:domain :ContextOfDelayedFlight ;
+                               
+                               rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasDepartureTimeTheFollowingDay
+
+:hasDepartureTimeTheFollowingDay rdf:type owl:DatatypeProperty ;
+                                 
+                                 rdfs:comment """Flight whose delay has the expected time of departure at least the day after the previously announced departure.
+""" ;
+                                 
+                                 rdfs:domain :ContextOfDelayedFlight ;
+                                 
+                                 rdfs:subPropertyOf :hasFlightDistanceBetween_1500_and_3500km ;
+                                 
+                                 rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasFlightDistanceBetween_1500_and_3500km
+
+:hasFlightDistanceBetween_1500_and_3500km rdf:type owl:DatatypeProperty ;
+                                          
+                                          rdfs:comment "Flight with a distance between 1500 and 3500 km." ;
+                                          
+                                          rdfs:domain <http://purl.oclc.org/NET/#ContextOfCancelledFlight> ,
+                                                      <http://purl.oclc.org/NET/#ContextOfDeniedFlight> ,
+                                                      :ContextOfDelayedFlight ;
+                                          
+                                          rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasFlightDistanceMoreThan_1500km
+
+:hasFlightDistanceMoreThan_1500km rdf:type owl:DatatypeProperty ;
+                                  
+                                  rdfs:comment "Flight with a distance more than 1500 km." ;
+                                  
+                                  rdfs:domain <http://purl.oclc.org/NET/#ContextOfCancelledFlight> ,
+                                              <http://purl.oclc.org/NET/#ContextOfDeniedFlight> ,
+                                              :ContextOfDelayedFlight ;
+                                  
+                                  rdfs:subPropertyOf :hasFlightDistanceUpTo_1500km ;
+                                  
+                                  rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasFlightDistanceUpTo_1500km
+
+:hasFlightDistanceUpTo_1500km rdf:type owl:DatatypeProperty ;
+                              
+                              rdfs:comment "Flight with a distance up to 1500 km." ;
+                              
+                              rdfs:domain <http://purl.oclc.org/NET/#ContextOfCancelledFlight> ,
+                                          <http://purl.oclc.org/NET/#ContextOfDeniedFlight> ,
+                                          :ContextOfDelayedFlight ;
+                              
+                              rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasIntraCommunityFlights
+
+:hasIntraCommunityFlights rdf:type owl:DatatypeProperty ;
+                          
+                          rdfs:comment "Is a intra-Comminity flight." ;
+                          
+                          rdfs:domain <http://purl.oclc.org/NET/#ContextOfCancelledFlight> ,
+                                      <http://purl.oclc.org/NET/#ContextOfDeniedFlight> ,
+                                      :ContextOfDelayedFlight ;
+                          
+                          rdfs:range xsd:boolean .
+
+
+
+###  http://purl.org/NET/atpir-filf#hasOtherFlights
+
+:hasOtherFlights rdf:type owl:DatatypeProperty ;
+                 
+                 rdfs:comment "All other flights." ;
+                 
+                 rdfs:domain <http://purl.oclc.org/NET/#ContextOfCancelledFlight> ,
+                             <http://purl.oclc.org/NET/#ContextOfDeniedFlight> ,
+                             :ContextOfDelayedFlight ;
+                 
+                 rdfs:range xsd:boolean .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://purl.oclc.org/NET/#ContextOfCancelledFlight
+
+<http://purl.oclc.org/NET/#ContextOfCancelledFlight> rdf:type owl:Class ;
+                                                     
+                                                     rdfs:subClassOf atpir-fi:Context ;
+                                                     
+                                                     rdfs:comment "A set of circumstances of facts that surrounds a cancelled flight." .
+
+
+
+###  http://purl.oclc.org/NET/#ContextOfDeniedFlight
+
+<http://purl.oclc.org/NET/#ContextOfDeniedFlight> rdf:type owl:Class ;
+                                                  
+                                                  rdfs:subClassOf atpir-fi:Context ;
+                                                  
+                                                  rdfs:comment "A set of circumstances of facts that surrounds a denied flight." .
+
+
+
+###  http://purl.oclc.org/NET/#Reimbursement
+
+<http://purl.oclc.org/NET/#Reimbursement> rdf:type owl:Class ;
+                                          
+                                          rdfs:subClassOf :CancelledFlightRight ,
+                                                          :DelayedFlightRight ;
+                                          
+                                          rdfs:comment "Reimbursement consists in the refund, within seven days, of the full cost of the ticket at the price at which it was bought, for the part or parts of the journey not made unused flight tickets), and for the part or parts already made if the flight is no longer serving any purpose in relation to the passenger's original travel plan, together, when relevant, with a a return flight back to the first point of departure, at the earliest opportunity, Article 8 (1) (a) of the EC Regulation" .
+
+
+
+###  http://purl.oclc.org/NET/atpir-cw#Passenger
+
+atpir-cw:Passenger rdf:type owl:Class .
+
+
+
+###  http://purl.oclc.org/NET/atpir-fi#Context
+
+atpir-fi:Context rdf:type owl:Class ;
+                 
+                 rdfs:comment "A set of circumstances of facts that surround a flight." .
+
+
+
+###  http://purl.org/NET/atpir-filf#Accomodation
+
+:Accomodation rdf:type owl:Class ;
+              
+              rdfs:subClassOf :Assistance ;
+              
+              rdfs:comment """Is a type of assistance and it consists in hotel or other accomodation, in cases where a stay of one or more nights becomes necessary, or where a stay additional to that intended by the passenger becomes necessary, Article 9 (1) (b) of the EC Regulation.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Assistance
+
+:Assistance rdf:type owl:Class ;
+            
+            rdfs:subClassOf :CancelledFlightRight ,
+                            :CompelledPassengerRight ,
+                            :DelayedFlightRight ;
+            
+            rdfs:comment """The right to assistance or right to care entitles each pasenger, free of charge:
+(a) meals and refreshments in a reasonable relation to the waiting time;
+(b) hotel accommodation in cases
+— where a stay of one or more nights becomes necessary,
+or
+— where a stay additional to that intended by the
+passenger becomes necessary;
+(c) transport between the airport and place of accommodation
+(hotel or other).
+2. In addition, passengers shall be offered free of charge two
+telephone calls, telex or fax messages, or e-mails, according to Article  9 of the EC Regulation.""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Benefits
+
+:Benefits rdf:type owl:Class ;
+          
+          rdfs:subClassOf :VolunteersRight ;
+          
+          rdfs:comment """Benefits and its conditions are negotiated between the passenger concerned and the operating air carrier and stems from the positively respond to the air carrier's call for passengers prepared to surrender their reservation in exchange for benefits.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#CancelledFlightRight
+
+:CancelledFlightRight rdf:type owl:Class ;
+                      
+                      rdfs:subClassOf :PassengerRight ;
+                      
+                      rdfs:comment "Rights of the passenger in the event of a cancelled flight, Article 5 of the EC Regulation." .
+
+
+
+###  http://purl.org/NET/atpir-filf#CaseLaw_ECJ
+
+:CaseLaw_ECJ rdf:type owl:Class ;
+             
+             rdfs:subClassOf :EU_AirTransportLaw ;
+             
+             rdfs:comment "European Case Law from the European Court of Justice" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Communications
+
+:Communications rdf:type owl:Class ;
+                
+                rdfs:subClassOf :Assistance ;
+                
+                rdfs:comment """Is a type of assistance and consists of 2 telephone calls, telex or fax messages, or emails, Article 9, (2) of the EC Regulation.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#CompelledPassengerRight
+
+:CompelledPassengerRight rdf:type owl:Class ;
+                         
+                         rdfs:subClassOf :DeniedFlightRight ;
+                         
+                         rdfs:comment "The air carrier may deny boarding to passengers against their will, if an insufficient of volunteers does not surrendet their reservations, Article 4(2) of the EC Regulation." .
+
+
+
+###  http://purl.org/NET/atpir-filf#Compensation
+
+:Compensation rdf:type owl:Class ;
+              
+              rdfs:subClassOf :CancelledFlightRight ,
+                              :CompelledPassengerRight ,
+                              :DelayedFlightRight ;
+              
+              rdfs:comment """The right to compensation consists of a payment of an amout of money  regading the passenger's inconvenience of a flight disruption.
+The amount depends on the flight distance and onthe type of flight.
+The compensation shall be paid in cash, by electronic bank transfer, bank orders or bank cheques or, with the signed agreement of the passenger, in travel vouchers and/or other services, Article 7 of the EC Regulation.""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#ContextOfDelayedFlight
+
+:ContextOfDelayedFlight rdf:type owl:Class ;
+                        
+                        rdfs:subClassOf atpir-fi:Context ;
+                        
+                        rdfs:comment "A set of circumstances of facts that surrounds a delayed flight." .
+
+
+
+###  http://purl.org/NET/atpir-filf#DelayedFlightRight
+
+:DelayedFlightRight rdf:type owl:Class ;
+                    
+                    rdfs:subClassOf :PassengerRight ;
+                    
+                    rdfs:comment "Rights of the passenger in the event of delayed flight, Article 6 of the EC Regulation." ;
+                    
+                    :definedBy :CaseLaw_ECJ .
+
+
+
+###  http://purl.org/NET/atpir-filf#DeniedFlightRight
+
+:DeniedFlightRight rdf:type owl:Class ;
+                   
+                   rdfs:subClassOf :PassengerRight ;
+                   
+                   rdfs:comment """Rights of the passenger in the event of a denied flight, Article 4 of the EC Regulation.
+
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#EU_AirTransportLaw
+
+:EU_AirTransportLaw rdf:type owl:Class ;
+                    
+                    rdfs:subClassOf :Source ;
+                    
+                    rdfs:comment """Legal base applied to air transport passenger rights, constituted by the specific european legislation and case-law
+""" ;
+                    
+                    skos:broader lkif-core:Legal_Source .
+
+
+
+###  http://purl.org/NET/atpir-filf#EarlyRerouting
+
+:EarlyRerouting rdf:type owl:Class ;
+                
+                rdfs:subClassOf :Rerouting ;
+                
+                rdfs:comment """At the earliest opportunity
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#EuropeanCommunications
+
+:EuropeanCommunications rdf:type owl:Class ;
+                        
+                        rdfs:subClassOf :EU_AirTransportLaw ;
+                        
+                        rdfs:comment """Set of European Communications from the Commission to the European Parliament and to the Council on the application of the Regulation 261/2004, such as the [COM(201)174 final] and [COM(2007) 0168] 
+
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#ExemptionOfCompensation
+
+:ExemptionOfCompensation rdf:type owl:Class ;
+                         
+                         rdfs:subClassOf :Compensation ;
+                         
+                         rdfs:comment """The air carrier is not obliged to provide cash compensation if it is proved that the cancellation of the flight was caused by extraordinary circumstances which could not have been avoided even if all reasonable measures had been taken or if they have been informed in good time that the flight has been cancelled, Article 5 (3) of the EC Regulation.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#FlightIncidentLegalFramework
+
+:FlightIncidentLegalFramework rdf:type owl:Class ;
+                              
+                              rdfs:comment "Framework applied to air passenger rights" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Information
+
+:Information rdf:type owl:Class ;
+             
+             rdfs:subClassOf <http://purl.oclc.org/NET/#Reimbursement> ;
+             
+             rdfs:comment """The right to information is expressed in Article 14 of the Regulation 261/2004 and stems from the obligation of the air carrier to inform passengers of their rights.
+The operating air carrier shall ensure that at check-in a clearly legible notice containing the following text is displayed in a manner clearly visible to passengers: ‘If you are denied boarding or if your flight is cancelled or delayed for at least two hours, ask at the check-in counter or boarding gate for the
+text stating your rights, particularly with regard to compensation and assistance’.
+
+An operating air carrier denying boarding or cancelling a flight shall provide each passenger affected with a written notice setting out the rules for compensation and assistance in line with this Regulation. It shall also provide each passenger affected by a delay of at least two hours with an equivalent
+notice. The contact details of the national designated body referred to in Article 16 shall also be given to the passenger in written form. In respect of blind and visually impaired persons, the provisions of this Article shall be applied using appropriate alternative means.
+
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#LaterRerouting
+
+:LaterRerouting rdf:type owl:Class ;
+                
+                rdfs:subClassOf :Rerouting ;
+                
+                rdfs:comment """at a later date at the passenger's convenience, subject to availability of seats
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Meals
+
+:Meals rdf:type owl:Class ;
+       
+       rdfs:subClassOf :Assistance ;
+       
+       rdfs:comment """Is a type of assistance and consists in meals and refreshments, in a reasonable relation to the waiting time, Article 9 (1) (a) of the EC Regulation.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#PassengerChoice
+
+:PassengerChoice rdf:type owl:Class ;
+                 
+                 rdfs:comment "Regarding an incident, the passenger has to choose between two legal rights" .
+
+
+
+###  http://purl.org/NET/atpir-filf#PassengerRight
+
+:PassengerRight rdf:type owl:Class ;
+                
+                rdfs:comment "The rights that air passengers is entitled to in the event of an incident." ;
+                
+                skos:broader <http://www.estrellaproject.org/lkif-core/norm.owl#Right> .
+
+
+
+###  http://purl.org/NET/atpir-filf#Policies
+
+:Policies rdf:type owl:Class ;
+          
+          rdfs:subClassOf :Source ;
+          
+          rdfs:comment """Contractual base or terms and conditions of the companies
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Rerouting
+
+:Rerouting rdf:type owl:Class ;
+           
+           rdfs:subClassOf :CancelledFlightRight ,
+                           :CompelledPassengerRight ,
+                           :VolunteersRight ;
+           
+           rdfs:comment "Rerouting to the passenger´s final destination, at the earliest opportunity; or at a later date at the passenger's convenience, subject to availability of seats under comparable transport conditions, Article 8 (1) (b) of the (EC) Regulation" .
+
+
+
+###  http://purl.org/NET/atpir-filf#ScopeOfApplication
+
+:ScopeOfApplication rdf:type owl:Class ;
+                    
+                    rdfs:comment """The scope of application of the Regulation 261/2004 is established in Article 3 of the Regulation and defines when the Regulation applies and in which conditions. 
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Source
+
+:Source rdf:type owl:Class ;
+        
+        rdfs:comment "Rules that are applicable to air transport passenger domain" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Transportation
+
+:Transportation rdf:type owl:Class ;
+                
+                rdfs:subClassOf :Assistance ;
+                
+                rdfs:comment """Is a type of Assistance and consists of transport between the airport and place of accommodation (hotel or other), Article 9 (1) (c) of the EC Regulation.
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#VolunteersRight
+
+:VolunteersRight rdf:type owl:Class ;
+                 
+                 rdfs:subClassOf :DeniedFlightRight ;
+                 
+                 rdfs:comment """Rights that stem from the call for volunteers to surrender their reservations, Article 4 (1) of the EC Regulation.
+Volunteer means a person who has presented himself for boarding under the conditions laid down in Article 3 (2) of the Regulation and responds positively to the air carrier's call for passengers prepared to surrender their reservation in exchange for benefits.""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#EC_Regulation_261/2004
+
+<http://purl.org/NET/atpir-filf#EC_Regulation_261/2004> rdf:type owl:Class ;
+                                                        
+                                                        rdfs:subClassOf :EU_AirTransportLaw ;
+                                                        
+                                                        rdfs:comment """Regulation (EC) 261/2004 establishes common rules on compensation and assistance to passengers in the event of denied boarding, flight cancellations, or long delays of flights.
+
+""" ;
+                                                        
+                                                        skos:broader lkif-core:Regulation .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://purl.org/NET/atpir-filf#ArrivedInTimeForCheck_In
+
+:ArrivedInTimeForCheck_In rdf:type owl:NamedIndividual ;
+                          
+                          rdfs:comment """arrived in time for check-in as indicated on the ticket or communication from the airline, or, if no time is so indicated, no less than 45 minutes prior to the scheduled departure time of the flight
+""" .
+
+
+
+###  http://purl.org/NET/atpir-filf#Between_1500And3500km
+
+:Between_1500And3500km rdf:type owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-filf#ConfirmedReservation
+
+:ConfirmedReservation rdf:type owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-filf#DepartureTimeInTheFollowingDay
+
+:DepartureTimeInTheFollowingDay rdf:type owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-filf#IntraCommunityFlights
+
+:IntraCommunityFlights rdf:type owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-filf#MoreThan_1500km
+
+:MoreThan_1500km rdf:type owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-filf#OtherFlights
+
+:OtherFlights rdf:type owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-filf#UpTo1500km
+
+:UpTo1500km rdf:type owl:NamedIndividual .
+
+
+
+###  http://purl.org/NET/atpir-filf#5HoursOrMore
+
+<http://purl.org/NET/atpir-filf#5HoursOrMore> rdf:type owl:NamedIndividual .
+
+
+
+
+###  Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net
+

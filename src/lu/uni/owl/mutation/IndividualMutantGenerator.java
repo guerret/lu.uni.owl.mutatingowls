@@ -55,9 +55,11 @@ public class IndividualMutantGenerator extends MutantGenerator {
 					: ontology.getLabel(s.asOWLClass());
 			IndividualMutantGenerator mutant = (IndividualMutantGenerator) copy(this, opname,
 					ontology.getLabel(individual), typeLabel);
-			manager.applyChange(
-					new RemoveAxiom(mutant.ontology.getOntology(), factory.getOWLClassAssertionAxiom(s, individual)));
-			ret.add(mutant);
+			if (mutant.ontology != null) {
+				manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(),
+						factory.getOWLClassAssertionAxiom(s, individual)));
+				ret.add(mutant);
+			}
 		}
 		return ret;
 	}
@@ -73,13 +75,15 @@ public class IndividualMutantGenerator extends MutantGenerator {
 							: ontology.getLabel(p.asOWLClass());
 					IndividualMutantGenerator mutant = (IndividualMutantGenerator) copy(this, opname,
 							ontology.getLabel(individual), parentLabel);
-					List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
-					changes.add(new RemoveAxiom(mutant.ontology.getOntology(),
-							factory.getOWLClassAssertionAxiom(s, individual)));
-					changes.add(new AddAxiom(mutant.ontology.getOntology(),
-							factory.getOWLClassAssertionAxiom(p, individual)));
-					manager.applyChanges(changes);
-					ret.add(mutant);
+					if (mutant.ontology != null) {
+						List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+						changes.add(new RemoveAxiom(mutant.ontology.getOntology(),
+								factory.getOWLClassAssertionAxiom(s, individual)));
+						changes.add(new AddAxiom(mutant.ontology.getOntology(),
+								factory.getOWLClassAssertionAxiom(p, individual)));
+						manager.applyChanges(changes);
+						ret.add(mutant);
+					}
 				}
 			}
 		return ret;
@@ -94,13 +98,15 @@ public class IndividualMutantGenerator extends MutantGenerator {
 					String parentLabel = ontology.getLabel(p.asOWLClass());
 					IndividualMutantGenerator mutant = (IndividualMutantGenerator) copy(this, opname,
 							ontology.getLabel(individual), parentLabel);
-					List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
-					changes.add(new RemoveAxiom(mutant.ontology.getOntology(),
-							factory.getOWLClassAssertionAxiom(s, individual)));
-					changes.add(new AddAxiom(mutant.ontology.getOntology(),
-							factory.getOWLClassAssertionAxiom(p, individual)));
-					manager.applyChanges(changes);
-					ret.add(mutant);
+					if (mutant.ontology != null) {
+						List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+						changes.add(new RemoveAxiom(mutant.ontology.getOntology(),
+								factory.getOWLClassAssertionAxiom(s, individual)));
+						changes.add(new AddAxiom(mutant.ontology.getOntology(),
+								factory.getOWLClassAssertionAxiom(p, individual)));
+						manager.applyChanges(changes);
+						ret.add(mutant);
+					}
 				}
 			}
 		return ret;

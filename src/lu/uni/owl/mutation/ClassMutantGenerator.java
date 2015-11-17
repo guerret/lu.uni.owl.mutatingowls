@@ -54,8 +54,11 @@ public class ClassMutantGenerator extends MutantGenerator {
 					: ontology.getLabel(s.asOWLClass());
 			ClassMutantGenerator mutant = (ClassMutantGenerator) copy(this, opname, ontology.getLabel(cls),
 					parentLabel);
-			manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(), factory.getOWLSubClassOfAxiom(cls, s)));
-			ret.add(mutant);
+			if (mutant.ontology != null) {
+				manager.applyChange(
+						new RemoveAxiom(mutant.ontology.getOntology(), factory.getOWLSubClassOfAxiom(cls, s)));
+				ret.add(mutant);
+			}
 		}
 		return ret;
 	}
@@ -87,8 +90,10 @@ public class ClassMutantGenerator extends MutantGenerator {
 				OWLClass parent = s.asOWLClass();
 				ClassMutantGenerator mutant = new ClassMutantGenerator(
 						copy(this, opname, ontology.getLabel(cls), ontology.getLabel(parent)));
-				mutant.swapClasses(cls, parent);
-				ret.add(mutant);
+				if (mutant.ontology != null) {
+					mutant.swapClasses(cls, parent);
+					ret.add(mutant);
+				}
 			}
 		}
 		return ret;

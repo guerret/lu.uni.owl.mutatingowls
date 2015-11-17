@@ -61,9 +61,11 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 				OWLClass domain = d.asOWLClass();
 				ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 						copy(this, opname, ontology.getLabel(property), ontology.getLabel(domain)));
-				manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(),
-						factory.getOWLObjectPropertyDomainAxiom(property, domain)));
-				ret.add(mutant);
+				if (mutant.ontology != null) {
+					manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(),
+							factory.getOWLObjectPropertyDomainAxiom(property, domain)));
+					ret.add(mutant);
+				}
 			}
 		}
 		return ret;
@@ -77,9 +79,11 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 				OWLClass domain = r.asOWLClass();
 				ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 						copy(this, opname, ontology.getLabel(property), ontology.getLabel(domain)));
-				manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(),
-						factory.getOWLObjectPropertyRangeAxiom(property, domain)));
-				ret.add(mutant);
+				if (mutant.ontology != null) {
+					manager.applyChange(new RemoveAxiom(mutant.ontology.getOntology(),
+							factory.getOWLObjectPropertyRangeAxiom(property, domain)));
+					ret.add(mutant);
+				}
 			}
 		}
 		return ret;
@@ -107,8 +111,10 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 				OWLClass domain = d.asOWLClass();
 				ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 						copy(this, opname, ontology.getLabel(property), ontology.getLabel(domain)));
-				mutant.changeDomainToRange(property, domain);
-				ret.add(mutant);
+				if (mutant.ontology != null) {
+					mutant.changeDomainToRange(property, domain);
+					ret.add(mutant);
+				}
 			}
 		}
 		return ret;
@@ -122,8 +128,10 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 				OWLClass range = r.asOWLClass();
 				ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 						copy(this, opname, ontology.getLabel(property), ontology.getLabel(range)));
-				mutant.changeRangeToDomain(property, range);
-				ret.add(mutant);
+				if (mutant.ontology != null) {
+					mutant.changeRangeToDomain(property, range);
+					ret.add(mutant);
+				}
 			}
 		}
 		return ret;
@@ -147,8 +155,10 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 						OWLClass c = s.asOWLClass();
 						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
-						mutant.reassignObjectPropertyDomain(property, cls, c);
-						ret.add(mutant);
+						if (mutant.ontology != null) {
+							mutant.reassignObjectPropertyDomain(property, cls, c);
+							ret.add(mutant);
+						}
 					}
 				}
 			}
@@ -167,8 +177,10 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 						OWLClass c = s.asOWLClass();
 						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
-						mutant.reassignObjectPropertyDomain(property, cls, c);
-						ret.add(mutant);
+						if (mutant.ontology != null) {
+							mutant.reassignObjectPropertyDomain(property, cls, c);
+							ret.add(mutant);
+						}
 					}
 				}
 			}
@@ -194,8 +206,10 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 						OWLClass c = s.asOWLClass();
 						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
-						mutant.reassignObjectPropertyRange(property, cls, c);
-						ret.add(mutant);
+						if (mutant.ontology != null) {
+							mutant.reassignObjectPropertyRange(property, cls, c);
+							ret.add(mutant);
+						}
 					}
 				}
 			}
@@ -214,8 +228,10 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 						OWLClass c = s.asOWLClass();
 						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
 								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
-						mutant.reassignObjectPropertyRange(property, cls, c);
-						ret.add(mutant);
+						if (mutant.ontology != null) {
+							mutant.reassignObjectPropertyRange(property, cls, c);
+							ret.add(mutant);
+						}
 					}
 				}
 			}

@@ -68,8 +68,10 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 						OWLClass c = s.asOWLClass();
 						DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
 								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
-						mutant.reassignDataPropertyDomain(property, cls, c);
-						ret.add(mutant);
+						if (mutant.ontology != null) {
+							mutant.reassignDataPropertyDomain(property, cls, c);
+							ret.add(mutant);
+						}
 					}
 				}
 			}
@@ -88,8 +90,10 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 						OWLClass c = s.asOWLClass();
 						DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
 								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
-						mutant.reassignDataPropertyDomain(property, cls, c);
-						ret.add(mutant);
+						if (mutant.ontology != null) {
+							mutant.reassignDataPropertyDomain(property, cls, c);
+							ret.add(mutant);
+						}
 					}
 				}
 			}
@@ -106,12 +110,14 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 				String typeLabel = ontology.getLabel(type).replace(':', '_');
 				DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
 						copy(this, opname, ontology.getLabel(property), typeLabel));
-				List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
-				factory.getOWLDataPropertyRangeAxiom(property, factory.getRDFPlainLiteral());
-				changes.add(new RemoveAxiom(mutant.ontology.getOntology(),
-						factory.getOWLDataPropertyRangeAxiom(property, r)));
-				manager.applyChanges(changes);
-				ret.add(mutant);
+				if (mutant.ontology != null) {
+					List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+					factory.getOWLDataPropertyRangeAxiom(property, factory.getRDFPlainLiteral());
+					changes.add(new RemoveAxiom(mutant.ontology.getOntology(),
+							factory.getOWLDataPropertyRangeAxiom(property, r)));
+					manager.applyChanges(changes);
+					ret.add(mutant);
+				}
 			}
 		}
 		return ret;
