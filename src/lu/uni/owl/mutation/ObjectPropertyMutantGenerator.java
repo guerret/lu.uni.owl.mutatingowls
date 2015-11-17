@@ -153,8 +153,8 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 				for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
 					if (!s.isAnonymous()) {
 						OWLClass c = s.asOWLClass();
-						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
-								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
+						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(copy(this, opname,
+								ontology.getLabel(property), ontology.getLabel(cls) + "-" + ontology.getLabel(c)));
 						if (mutant.ontology != null) {
 							mutant.reassignObjectPropertyDomain(property, cls, c);
 							ret.add(mutant);
@@ -175,8 +175,8 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 				for (OWLClassExpression s : ontology.getSubClasses(cls)) {
 					if (!s.isAnonymous()) {
 						OWLClass c = s.asOWLClass();
-						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
-								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
+						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(copy(this, opname,
+								ontology.getLabel(property), ontology.getLabel(cls) + "-" + ontology.getLabel(c)));
 						if (mutant.ontology != null) {
 							mutant.reassignObjectPropertyDomain(property, cls, c);
 							ret.add(mutant);
@@ -204,8 +204,8 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 				for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
 					if (!s.isAnonymous()) {
 						OWLClass c = s.asOWLClass();
-						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
-								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
+						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(copy(this, opname,
+								ontology.getLabel(property), ontology.getLabel(cls) + "-" + ontology.getLabel(c)));
 						if (mutant.ontology != null) {
 							mutant.reassignObjectPropertyRange(property, cls, c);
 							ret.add(mutant);
@@ -226,8 +226,8 @@ public class ObjectPropertyMutantGenerator extends MutantGenerator {
 				for (OWLClassExpression s : ontology.getSubClasses(cls)) {
 					if (!s.isAnonymous()) {
 						OWLClass c = s.asOWLClass();
-						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(
-								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
+						ObjectPropertyMutantGenerator mutant = new ObjectPropertyMutantGenerator(copy(this, opname,
+								ontology.getLabel(property), ontology.getLabel(cls) + "-" + ontology.getLabel(c)));
 						if (mutant.ontology != null) {
 							mutant.reassignObjectPropertyRange(property, cls, c);
 							ret.add(mutant);

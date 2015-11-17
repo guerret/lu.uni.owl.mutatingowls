@@ -66,8 +66,8 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 				for (OWLClassExpression s : ontology.getSuperClasses(cls)) {
 					if (!s.isAnonymous()) {
 						OWLClass c = s.asOWLClass();
-						DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
-								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
+						DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(copy(this, opname,
+								ontology.getLabel(property), ontology.getLabel(cls) + "-" + ontology.getLabel(c)));
 						if (mutant.ontology != null) {
 							mutant.reassignDataPropertyDomain(property, cls, c);
 							ret.add(mutant);
@@ -88,8 +88,8 @@ public class DataPropertyMutantGenerator extends MutantGenerator {
 				for (OWLClassExpression s : ontology.getSubClasses(cls)) {
 					if (!s.isAnonymous()) {
 						OWLClass c = s.asOWLClass();
-						DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(
-								copy(this, opname, ontology.getLabel(property), ontology.getLabel(c)));
+						DataPropertyMutantGenerator mutant = new DataPropertyMutantGenerator(copy(this, opname,
+								ontology.getLabel(property), ontology.getLabel(cls) + "-" + ontology.getLabel(c)));
 						if (mutant.ontology != null) {
 							mutant.reassignDataPropertyDomain(property, cls, c);
 							ret.add(mutant);
