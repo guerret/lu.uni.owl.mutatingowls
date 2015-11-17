@@ -1,8 +1,10 @@
 package lu.uni.owl.mutation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class MutantGeneration {
 
@@ -39,9 +41,12 @@ public class MutantGeneration {
 	public static void main(String[] args) {
 		MutantGeneration mutantGeneration = new MutantGeneration();
 		HashMap<String, List<MutantGenerator>> mutants = mutantGeneration.generateMutants();
-		for (String operators : mutants.keySet()) {
-			List<MutantGenerator> mutantSet = mutants.get(operators);
-			String path = MUTANT_PATH + "/" + operators;
+		ArrayList<String> keys = new ArrayList<String>(mutants.keySet());
+		Collections.sort(keys);
+		for (String operator : keys) {
+			List<MutantGenerator> mutantSet = mutants.get(operator);
+			System.out.println(operator + ": " + mutantSet.size());
+			String path = MUTANT_PATH + "/" + operator;
 			for (MutantGenerator mutant : mutantSet)
 				mutant.save(path, mutant.ontology.getVersionIRI() + ".owl");
 		}
