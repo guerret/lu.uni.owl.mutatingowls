@@ -1,4 +1,4 @@
-package lu.uni.owl.mutation;
+package lu.uni.owl.mutatingowls;
 
 import java.io.File;
 import java.util.Collection;
@@ -25,6 +25,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.search.EntitySearcher;
 import org.semanticweb.owlapi.util.AutoIRIMapper;
+import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 public class Ontology {
 
@@ -33,8 +34,10 @@ public class Ontology {
 
 	public Ontology(String path, String fileName) {
 		manager = OWLManager.createOWLOntologyManager();
-		manager.getIRIMappers().add(new AutoIRIMapper(new File(MutantGeneration.OWL_PATH), true));
-		manager.getOWLDataFactory();
+		manager.getIRIMappers().add(new AutoIRIMapper(new File(System.getProperty("user.dir") + "/resources"), false));
+		// The next instruction overrides some problems in the atpir-fi ontology
+		manager.getIRIMappers().add(new SimpleIRIMapper(IRI.create("http://purl.org/NET/atpir-fi"),
+				IRI.create(new File(path + File.separator + "atpir-fi.owl"))));
 		ontology = load(path + File.separator + fileName);
 		System.out.println("Number of axioms: " + ontology.getAxiomCount());
 		System.out.println("IRI: " + ontology.getOntologyID().getOntologyIRI().get());
@@ -60,8 +63,7 @@ public class Ontology {
 
 	private OWLOntology load(String fileName) {
 		try {
-			File file = new File(fileName);
-			return manager.loadOntologyFromOntologyDocument(file);
+			return manager.loadOntologyFromOntologyDocument(IRI.create(new File(fileName)));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}

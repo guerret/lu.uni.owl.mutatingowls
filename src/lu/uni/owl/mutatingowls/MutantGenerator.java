@@ -1,4 +1,4 @@
-package lu.uni.owl.mutation;
+package lu.uni.owl.mutatingowls;
 
 import java.io.File;
 import java.util.ArrayList;

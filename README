@@ -1,0 +1,34 @@
+Mutating OWLs: a tool for ontology mutation testing
+
+This software generates mutants on ontologies defined in the OWL
+language. The syntax used for OWL is generally not relevant; however,
+due to some limitations in support libraries, if the ontology uses
+imports, then the imported ontologies must be saved in an XML format
+(either RDF/XML or OWL/XML). Without imports, the software is able to
+parse the ontologies regardless of the syntax in which they are
+formatted.
+
+To use the software, a standard installation of Eclipse 4.5 (Mars)
+running on Java version 1.8 is sufficient. Alternatively, the software
+relies on a number of external libraries, but they are easily managed
+using Apache Maven.
+
+The tool is currently in alpha stage, and does not offer a graphical
+interface or expose APIs. It has not been developed as an Eclipse
+plug-in.
+
+The main method is located in the following class:
+
+lu.uni.owl.mutatingowls.MutatingOWLs
+
+The input ontology is fed to the software via an argument to the main
+method. The input must be specified as a full file name with
+extension. In case no ontology is specified, the tool currently falls
+back to a default ontology. At the current development stage, the
+ontology must be stored in a subdirectory of the project directory,
+called resources; however, ontologies imported by the input ontology
+can be stored in the same folder, in subfolders, or on the web.
+
+For questions, please contact the following email address:
+
+cesare <dot> bartolini <at> uni <dot> lu.

@@ -1,22 +1,21 @@
-package lu.uni.owl.mutation;
+package lu.uni.owl.mutatingowls;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class MutantGeneration {
+public class MutatingOWLs {
 
-	protected static final String ONTOLOGY = "dataprotection";
-
+	protected static final String DEFAULT_ONTOLOGY = "dataprotection.owl";
 	protected static final String OWL_PATH = System.getProperty("user.dir") + "/resources";
-	protected static final String OWL_FILE = ONTOLOGY + ".owl";
-	protected static final String MUTANT_PATH = OWL_PATH + "/mutants/" + ONTOLOGY;
 
 	private Ontology ontology;
+	private String mutantPath;
 
-	private MutantGeneration() {
-		ontology = new Ontology(OWL_PATH, OWL_FILE);
+	private MutatingOWLs(String ontologyName) {
+		ontology = new Ontology(OWL_PATH, ontologyName);
+		mutantPath = OWL_PATH + "/mutants/" + ontologyName;
 	}
 
 	private HashMap<String, List<MutantGenerator>> generateMutants() {
@@ -38,14 +37,17 @@ public class MutantGeneration {
 	}
 
 	public static void main(String[] args) {
-		MutantGeneration mutantGeneration = new MutantGeneration();
+		String ontologyName = DEFAULT_ONTOLOGY;
+		if (args.length > 0)
+			ontologyName = args[0];
+		MutatingOWLs mutantGeneration = new MutatingOWLs(ontologyName);
 		HashMap<String, List<MutantGenerator>> mutants = mutantGeneration.generateMutants();
 		ArrayList<String> keys = new ArrayList<String>(mutants.keySet());
 		Collections.sort(keys);
 		for (String operator : keys) {
 			List<MutantGenerator> mutantSet = mutants.get(operator);
 			System.out.println(operator + ": " + mutantSet.size());
-			String path = MUTANT_PATH + "/" + operator;
+			String path = mutantGeneration.mutantPath + "/" + operator;
 			for (MutantGenerator mutant : mutantSet)
 				mutant.save(path, mutant.ontology.getVersionIRI() + ".owl");
 		}

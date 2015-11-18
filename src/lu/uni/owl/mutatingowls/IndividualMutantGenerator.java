@@ -1,4 +1,4 @@
-package lu.uni.owl.mutation;
+package lu.uni.owl.mutatingowls;
 
 import java.util.ArrayList;
 import java.util.HashMap;
