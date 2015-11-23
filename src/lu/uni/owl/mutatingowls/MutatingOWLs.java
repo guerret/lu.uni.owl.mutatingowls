@@ -22,9 +22,9 @@ public class MutatingOWLs {
 		HashMap<String, List<MutantGenerator>> ret = new HashMap<String, List<MutantGenerator>>();
 		List<HashMap<String, List<MutantGenerator>>> generators = new ArrayList<HashMap<String, List<MutantGenerator>>>();
 		generators.add(new ClassMutantGenerator(ontology).generateMutants());
-		generators.add(new ObjectPropertyMutantGenerator(ontology).generateMutants());
-		generators.add(new DataPropertyMutantGenerator(ontology).generateMutants());
-		generators.add(new IndividualMutantGenerator(ontology).generateMutants());
+//		generators.add(new ObjectPropertyMutantGenerator(ontology).generateMutants());
+//		generators.add(new DataPropertyMutantGenerator(ontology).generateMutants());
+//		generators.add(new IndividualMutantGenerator(ontology).generateMutants());
 		for (HashMap<String, List<MutantGenerator>> generator : generators) {
 			for (String key : generator.keySet()) {
 				if (ret.containsKey(key))
