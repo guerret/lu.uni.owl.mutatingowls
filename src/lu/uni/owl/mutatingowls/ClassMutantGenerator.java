@@ -41,7 +41,7 @@ public class ClassMutantGenerator extends MutantGenerator {
 	private List<OpData> getOps(OWLClass c) {
 		List<OpData> ops = new ArrayList<OpData>();
 		// ops.add(removeEntity(c));
-		// ops.add(removeSubclassAxioms(c));
+		ops.add(removeSubclassAxioms(c));
 		// ops.add(swapWithParents(c));
 		// ops.add(removeLabels(c));
 		// ops.add(changeLabelLanguage(c));
@@ -60,8 +60,9 @@ public class ClassMutantGenerator extends MutantGenerator {
 			ClassMutantGenerator mutant = (ClassMutantGenerator) copy(this, opname, ontology.getLabel(cls),
 					parentLabel);
 			if (mutant.ontology != null) {
-				manager.applyChange(
-						new RemoveAxiom(mutant.ontology.getOntology(), factory.getOWLSubClassOfAxiom(cls, s)));
+				List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+				changes.add(new RemoveAxiom(mutant.ontology.getOntology(), factory.getOWLSubClassOfAxiom(cls, s)));
+				manager.applyChanges(changes);
 				ret.add(mutant);
 			}
 		}

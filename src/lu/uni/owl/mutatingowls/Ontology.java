@@ -29,7 +29,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 public class Ontology {
 
-	private OWLOntologyManager manager;
+	protected OWLOntologyManager manager;
 	private OWLOntology ontology;
 
 	public Ontology(String path, String fileName) {
@@ -47,6 +47,11 @@ public class Ontology {
 		manager = OWLManager.createOWLOntologyManager();
 		manager.getOWLDataFactory();
 		ontology = owlMutant;
+	}
+
+	public Ontology() {
+		manager = OWLManager.createOWLOntologyManager();
+		manager.getOWLDataFactory();
 	}
 
 	public OWLOntology getOntology() {

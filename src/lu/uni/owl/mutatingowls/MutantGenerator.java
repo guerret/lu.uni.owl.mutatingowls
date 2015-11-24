@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
@@ -18,21 +17,19 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import com.google.common.base.Optional;
 
-public abstract class MutantGenerator {
+public abstract class MutantGenerator extends Ontology {
 
-	protected OWLOntologyManager manager;
 	protected OWLDataFactory factory;
 	protected Ontology ontology;
 
 	public MutantGenerator(Ontology ont) {
-		manager = OWLManager.createOWLOntologyManager();
+		super(ont.getOntology());
 		factory = manager.getOWLDataFactory();
 		ontology = ont;
 	}
@@ -40,7 +37,6 @@ public abstract class MutantGenerator {
 	public abstract HashMap<String, List<MutantGenerator>> generateMutants();
 
 	public MutantGenerator(MutantGenerator mut) {
-		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
 		if (mut != null)
 			ontology = mut.ontology;
