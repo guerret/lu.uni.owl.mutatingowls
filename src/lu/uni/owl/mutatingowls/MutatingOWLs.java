@@ -5,27 +5,32 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import lu.uni.owl.mutatingowlsgenerator.mutant.ClassMutantGenerator;
+import lu.uni.owl.mutatingowlsgenerator.mutant.DataPropertyMutantGenerator;
+import lu.uni.owl.mutatingowlsgenerator.mutant.IndividualMutantGenerator;
+import lu.uni.owl.mutatingowlsgenerator.mutant.ObjectPropertyMutantGenerator;
+
 public class MutatingOWLs {
 
 	protected static final String DEFAULT_ONTOLOGY = "dataprotection.owl";
 	protected static final String OWL_PATH = System.getProperty("user.dir") + "/resources";
 
 	private Ontology ontology;
-	private String mutantPath;
+	public static String mutantPath;
 
 	private MutatingOWLs(String ontologyName) {
 		ontology = new Ontology(OWL_PATH, ontologyName);
 		mutantPath = OWL_PATH + "/mutants/" + ontologyName;
 	}
 
-	private HashMap<String, List<MutantGenerator>> generateMutants() {
-		HashMap<String, List<MutantGenerator>> ret = new HashMap<String, List<MutantGenerator>>();
-		List<HashMap<String, List<MutantGenerator>>> generators = new ArrayList<HashMap<String, List<MutantGenerator>>>();
+	private HashMap<String, List<Mutant>> generateMutants() {
+		HashMap<String, List<Mutant>> ret = new HashMap<String, List<Mutant>>();
+		List<HashMap<String, List<Mutant>>> generators = new ArrayList<HashMap<String, List<Mutant>>>();
 		generators.add(new ClassMutantGenerator(ontology).generateMutants());
-//		generators.add(new ObjectPropertyMutantGenerator(ontology).generateMutants());
-//		generators.add(new DataPropertyMutantGenerator(ontology).generateMutants());
-//		generators.add(new IndividualMutantGenerator(ontology).generateMutants());
-		for (HashMap<String, List<MutantGenerator>> generator : generators) {
+		generators.add(new ObjectPropertyMutantGenerator(ontology).generateMutants());
+		generators.add(new DataPropertyMutantGenerator(ontology).generateMutants());
+		generators.add(new IndividualMutantGenerator(ontology).generateMutants());
+		for (HashMap<String, List<Mutant>> generator : generators) {
 			for (String key : generator.keySet()) {
 				if (ret.containsKey(key))
 					ret.get(key).addAll(generator.get(key));
@@ -41,15 +46,14 @@ public class MutatingOWLs {
 		if (args.length > 0)
 			ontologyName = args[0];
 		MutatingOWLs mutantGeneration = new MutatingOWLs(ontologyName);
-		HashMap<String, List<MutantGenerator>> mutants = mutantGeneration.generateMutants();
+		HashMap<String, List<Mutant>> mutants = mutantGeneration.generateMutants();
 		ArrayList<String> keys = new ArrayList<String>(mutants.keySet());
 		Collections.sort(keys);
 		for (String operator : keys) {
-			List<MutantGenerator> mutantSet = mutants.get(operator);
+			List<Mutant> mutantSet = mutants.get(operator);
 			System.out.println(operator + ": " + mutantSet.size());
-			String path = mutantGeneration.mutantPath + "/" + operator;
-			for (MutantGenerator mutant : mutantSet)
-				mutant.save(path, mutant.ontology.getVersionIRI() + ".owl");
+			for (Mutant mutant : mutantSet)
+				mutant.save();
 		}
 	}
 

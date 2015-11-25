@@ -29,8 +29,8 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 public class Ontology {
 
-	protected OWLOntologyManager manager;
-	private OWLOntology ontology;
+	public OWLOntologyManager manager;
+	protected OWLOntology ontology;
 
 	public Ontology(String path, String fileName) {
 		manager = OWLManager.createOWLOntologyManager();

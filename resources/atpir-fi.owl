@@ -14,8 +14,8 @@
 ]>
 
 
-<rdf:RDF xmlns="http://purl.oclc.org/NET/Complaint#"
-     xml:base="http://purl.oclc.org/NET/Complaint"
+<rdf:RDF xmlns="http://purl.oclc.org/NET/atpir-fi#"
+     xml:base="http://purl.oclc.org/NET/atpir-fi"
      xmlns:lkif-core="http://www.estrellaproject.org/lkif-core/lkif-core.owl#"
      xmlns:dct="http://purl.org/dc/terms/"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -48,109 +48,109 @@ The ontology expresses the main flight disruptions that frame the air transport 
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ActualTimeOfArrival -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ActualTimeOfArrival -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#ActualTimeOfArrival">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ActualTimeOfArrival">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ActualTimeOfDeparture -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ActualTimeOfDeparture -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#ActualTimeOfDeparture">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ActualTimeOfDeparture">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#DomesticFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#DomesticFlight -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#DomesticFlight">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#DomesticFlight">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#FlightDate -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#FlightDate -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#FlightDate">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#FlightDate">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#FlightNumber -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#FlightNumber -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#FlightNumber">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#FlightNumber">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#IntraCommunityFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#IntraCommunityFlight -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#IntraCommunityFlight">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#IntraCommunityFlight">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#LongHaulFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#LongHaulFlight -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#LongHaulFlight">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#LongHaulFlight">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#MediumHaulFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#MediumHaulFlight -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#MediumHaulFlight">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#MediumHaulFlight">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ScheduledTimeOfArrival -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfArrival -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#ScheduledTimeOfArrival">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfArrival">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ScheduledTimeOfDeparture -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfDeparture -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#ScheduledTimeOfDeparture">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfDeparture">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ShortHaulFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ShortHaulFlight -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#ShortHaulFlight">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ShortHaulFlight">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
         <rdfs:domain rdf:resource="http://purl.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#SingularFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#SingularFlight -->
 
-    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/Complaint#SingularFlight">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#Flight"/>
+    <owl:AnnotationProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#SingularFlight">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#Flight"/>
     </owl:AnnotationProperty>
     
 
@@ -178,9 +178,9 @@ The ontology expresses the main flight disruptions that frame the air transport 
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#causedBy -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#causedBy -->
 
-    <owl:ObjectProperty rdf:about="http://purl.oclc.org/NET/Complaint#causedBy">
+    <owl:ObjectProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#causedBy">
         <rdfs:comment>declares the incident that has caused a complaint</rdfs:comment>
         <rdfs:range rdf:resource="http://purl.org/NET/atpir-fi#Incident"/>
         <skos:closeMatch rdf:resource="&provo;wasGeneratedBy"/>
@@ -242,7 +242,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
     <!-- http://www.w3.org/2002/07/owl#topObjectProperty -->
 
     <rdf:Description rdf:about="&owl;topObjectProperty">
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#FlightIncident"/>
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#FlightIncident"/>
     </rdf:Description>
     
 
@@ -258,51 +258,51 @@ The ontology expresses the main flight disruptions that frame the air transport 
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ActualTimeOfArrival -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ActualTimeOfArrival -->
 
-    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/Complaint#ActualTimeOfArrival">
+    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ActualTimeOfArrival">
         <rdfs:range rdf:resource="&xsd;dateTime"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ActualTimeOfDeparture -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ActualTimeOfDeparture -->
 
-    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/Complaint#ActualTimeOfDeparture">
-        <rdfs:range rdf:resource="&xsd;dateTime"/>
-        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://purl.oclc.org/NET/Complaint#FlightDate -->
-
-    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/Complaint#FlightDate">
+    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ActualTimeOfDeparture">
         <rdfs:range rdf:resource="&xsd;dateTime"/>
         <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#FlightNumber -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#FlightDate -->
 
-    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/Complaint#FlightNumber">
+    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#FlightDate">
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.oclc.org/NET/atpir-fi#FlightNumber -->
+
+    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#FlightNumber">
         <rdfs:range rdf:resource="&xsd;string"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ScheduledTimeOfArrival -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfArrival -->
 
-    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/Complaint#ScheduledTimeOfArrival">
+    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfArrival">
         <rdfs:range rdf:resource="&xsd;dateTime"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ScheduledTimeOfDeparture -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfDeparture -->
 
-    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/Complaint#ScheduledTimeOfDeparture">
+    <owl:DatatypeProperty rdf:about="http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfDeparture">
         <rdfs:range rdf:resource="&xsd;dateTime"/>
     </owl:DatatypeProperty>
     
@@ -323,7 +323,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
 
     <owl:DatatypeProperty rdf:about="http://purl.org/NET/atpir-fi#reasonForCancellation">
         <rdfs:comment>Cause originating a flight cancellation.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/Complaint#CancelledFlight"/>
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/atpir-fi#CancelledFlight"/>
     </owl:DatatypeProperty>
     
 
@@ -339,58 +339,58 @@ The ontology expresses the main flight disruptions that frame the air transport 
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#BaggageIncident -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#BaggageIncident -->
 
-    <owl:Class rdf:about="http://purl.oclc.org/NET/Complaint#BaggageIncident">
+    <owl:Class rdf:about="http://purl.oclc.org/NET/atpir-fi#BaggageIncident">
         <rdfs:subClassOf rdf:resource="http://purl.org/NET/atpir-fi#Incident"/>
         <rdfs:comment>Incident related to a baggage.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#CancelledFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#CancelledFlight -->
 
-    <owl:Class rdf:about="http://purl.oclc.org/NET/Complaint#CancelledFlight">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#FlightIncident"/>
+    <owl:Class rdf:about="http://purl.oclc.org/NET/atpir-fi#CancelledFlight">
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#FlightIncident"/>
         <rdfs:comment>A cancelled flight means the non-operation of a flight that was previously planned, Article 5 of the EC Regulation 261/2004.
 </rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#DelayedFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#DelayedFlight -->
 
-    <owl:Class rdf:about="http://purl.oclc.org/NET/Complaint#DelayedFlight">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#FlightIncident"/>
+    <owl:Class rdf:about="http://purl.oclc.org/NET/atpir-fi#DelayedFlight">
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#FlightIncident"/>
         <rdfs:comment>Delayed flight refers to a flight whose departure time is later than the departure time originally scheduled, Article 6 of the EU Regulation
 </rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#DeniedFlight -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#DeniedFlight -->
 
-    <owl:Class rdf:about="http://purl.oclc.org/NET/Complaint#DeniedFlight">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#FlightIncident"/>
+    <owl:Class rdf:about="http://purl.oclc.org/NET/atpir-fi#DeniedFlight">
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#FlightIncident"/>
         <rdfs:comment>Denied flight means the air carrier refusal to carry passengers on a flight, although they have presented themselves for boarding under the conditions laid down in Article 3(2) of the (EC) Regulation, except where there are reasonable grounds to deny them boarding, such as reasons of health, safety or security, or inadequate travel documentation.
 </rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#FlightIncident -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#FlightIncident -->
 
-    <owl:Class rdf:about="http://purl.oclc.org/NET/Complaint#FlightIncident">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#FlightIncident"/>
+    <owl:Class rdf:about="http://purl.oclc.org/NET/atpir-fi#FlightIncident">
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#FlightIncident"/>
         <rdfs:subClassOf rdf:resource="http://purl.org/NET/atpir-fi#Incident"/>
         <rdfs:comment>Incident related to a flight.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://purl.oclc.org/NET/Complaint#ServiceIncident -->
+    <!-- http://purl.oclc.org/NET/atpir-fi#ServiceIncident -->
 
-    <owl:Class rdf:about="http://purl.oclc.org/NET/Complaint#ServiceIncident">
+    <owl:Class rdf:about="http://purl.oclc.org/NET/atpir-fi#ServiceIncident">
         <rdfs:subClassOf rdf:resource="http://purl.org/NET/atpir-fi#Incident"/>
         <rdfs:comment>Incident related to the service provided.</rdfs:comment>
     </owl:Class>
@@ -409,7 +409,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
     <!-- http://purl.org/NET/atpir-fi#BadQuality -->
 
     <owl:Class rdf:about="http://purl.org/NET/atpir-fi#BadQuality">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#ServiceIncident"/>
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#ServiceIncident"/>
         <rdfs:comment>Incident related to a bad quality service provided by the air carrier.</rdfs:comment>
     </owl:Class>
     
@@ -443,7 +443,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
     <!-- http://purl.org/NET/atpir-fi#DamagedBaggage -->
 
     <owl:Class rdf:about="http://purl.org/NET/atpir-fi#DamagedBaggage">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#BaggageIncident"/>
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#BaggageIncident"/>
         <rdfs:comment>Incident related to damaged baggage</rdfs:comment>
     </owl:Class>
     
@@ -452,7 +452,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
     <!-- http://purl.org/NET/atpir-fi#DelayedBaggage -->
 
     <owl:Class rdf:about="http://purl.org/NET/atpir-fi#DelayedBaggage">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#BaggageIncident"/>
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#BaggageIncident"/>
         <rdfs:comment>Incident related to a delayed baggage</rdfs:comment>
     </owl:Class>
     
@@ -521,7 +521,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
     <!-- http://purl.org/NET/atpir-fi#Irresponsiveness -->
 
     <owl:Class rdf:about="http://purl.org/NET/atpir-fi#Irresponsiveness">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#ServiceIncident"/>
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#ServiceIncident"/>
         <rdfs:comment>Incident related to the difficulties in getting information from the air carrier on where and how to complain and on claim redress (e.g. no phone number, no email or all telephone lines busy, no response to the complaint). </rdfs:comment>
     </owl:Class>
     
@@ -539,7 +539,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
     <!-- http://purl.org/NET/atpir-fi#LostBaggage -->
 
     <owl:Class rdf:about="http://purl.org/NET/atpir-fi#LostBaggage">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#BaggageIncident"/>
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#BaggageIncident"/>
         <rdfs:comment>Incident related to lost baggage</rdfs:comment>
     </owl:Class>
     
@@ -576,7 +576,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
     <!-- http://purl.org/NET/atpir-fi#SeatMisplacement -->
 
     <owl:Class rdf:about="http://purl.org/NET/atpir-fi#SeatMisplacement">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#ServiceIncident"/>
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#ServiceIncident"/>
     </owl:Class>
     
 
@@ -602,7 +602,7 @@ The ontology expresses the main flight disruptions that frame the air transport 
     <!-- http://purl.org/NET/atpir-fi#UnfairCommercialPractises -->
 
     <owl:Class rdf:about="http://purl.org/NET/atpir-fi#UnfairCommercialPractises">
-        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/Complaint#ServiceIncident"/>
+        <rdfs:subClassOf rdf:resource="http://purl.oclc.org/NET/atpir-fi#ServiceIncident"/>
         <rdfs:comment>Commercial practices which are unhonest practises; misleading commercial practices (such as false claims, deceiving information or leaving out important information that would affect the consumer decision to buy something); and aggressive sales techniques that harass the consumer into buying something under pressure, Article 5 of the Directive 2005/29/EC of 11 May 2005 concerning unfair business-to-consumer commercial practices in the internal market. 
 </rdfs:comment>
     </owl:Class>
@@ -642,25 +642,25 @@ The ontology expresses the main flight disruptions that frame the air transport 
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <rdf:Description rdf:about="http://purl.oclc.org/NET/Complaint#ActualTimeOfDeparture">
+    <rdf:Description rdf:about="http://purl.oclc.org/NET/atpir-fi#ActualTimeOfDeparture">
         <rdfs:comment>The accurate time of departure of the flight.</rdfs:comment>
     </rdf:Description>
-    <rdf:Description rdf:about="http://purl.oclc.org/NET/Complaint#ScheduledTimeOfArrival">
+    <rdf:Description rdf:about="http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfArrival">
         <rdfs:comment>The estimated or expected time to arrive at a certain airport.</rdfs:comment>
     </rdf:Description>
-    <rdf:Description rdf:about="http://purl.oclc.org/NET/Complaint#FlightNumber">
+    <rdf:Description rdf:about="http://purl.oclc.org/NET/atpir-fi#FlightNumber">
         <rdfs:comment>The flight number is an alphanumerical designator (is usually a two-letter abbreviation for the airline, followed by a three or four-digit number).
 It identifies a particular airline&apos;s specific flight in one direction, from origin to destination.
 The flight number are important when it comes to checking the airport gate monitor or flight status.
 </rdfs:comment>
     </rdf:Description>
-    <rdf:Description rdf:about="http://purl.oclc.org/NET/Complaint#ScheduledTimeOfDeparture">
+    <rdf:Description rdf:about="http://purl.oclc.org/NET/atpir-fi#ScheduledTimeOfDeparture">
         <rdfs:comment>The estimated or expected time to departure from a certain airport.</rdfs:comment>
     </rdf:Description>
-    <rdf:Description rdf:about="http://purl.oclc.org/NET/Complaint#ActualTimeOfArrival">
+    <rdf:Description rdf:about="http://purl.oclc.org/NET/atpir-fi#ActualTimeOfArrival">
         <rdfs:comment>The accurate time of arrival of the flight.</rdfs:comment>
     </rdf:Description>
-    <rdf:Description rdf:about="http://purl.oclc.org/NET/Complaint#FlightDate">
+    <rdf:Description rdf:about="http://purl.oclc.org/NET/atpir-fi#FlightDate">
         <rdfs:comment>Flight date is the actual date of the flight.</rdfs:comment>
     </rdf:Description>
 </rdf:RDF>
