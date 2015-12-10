@@ -13,7 +13,7 @@ import lu.uni.owl.mutatingowlsgenerator.mutant.ObjectPropertyMutantGenerator;
 public class MutatingOWLs {
 
 	protected static final String DEFAULT_ONTOLOGY = "dataprotection.owl";
-	protected static final String OWL_PATH = System.getProperty("user.dir") + "/resources";
+	public static final String OWL_PATH = System.getProperty("user.dir") + "/resources";
 
 	private Ontology ontology;
 	public static String mutantPath;
