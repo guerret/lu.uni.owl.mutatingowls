@@ -1,0 +1,137 @@
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x owl:equivalentClass [
+		owl:onProperty :hasTopping ;
+		owl:someValuesFrom [
+			rdfs:subClassOf [
+				owl:onProperty :hasSpiciness ;
+				owl:someValuesFrom :Hot ] ] ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x owl:equivalentClass [
+		owl:onProperty :hasTopping ;
+		owl:someValuesFrom [
+			rdf:type owl:Class ;
+			owl:equivalentClass :SpicyTopping ] ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x rdfs:subClassOf [
+		owl:onProperty :hasTopping ;
+		owl:someValuesFrom [
+			rdfs:subClassOf :Hot ] ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x rdfs:subClassOf [
+		owl:onProperty :hasTopping ;
+		owl:minCardinality 3 ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x rdfs:subClassOf [
+		owl:onProperty :hasTopping ;
+		owl:someValuesFrom [
+			rdfs:subClassOf [
+				owl:onProperty :hasSpiciness ;
+				owl:someValuesFrom :Hot ] ] ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x rdfs:subClassOf [
+		rdf:type owl:Class ;
+		owl:intersectionOf [
+			rdf:rest*/rdf:first :Hot ;
+			rdf:rest*/rdf:first :Medium ;
+			rdf:rest*/rdf:first :Mild ] ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x rdfs:subClassOf [
+		rdf:type owl:Class ;
+		owl:unionOf [
+			rdf:rest*/rdf:first :Hot ;
+			rdf:rest*/rdf:first :Medium ;
+			rdf:rest*/rdf:first :Mild ] ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x rdfs:subClassOf [
+		rdf:type owl:Class ;
+		owl:intersectionOf [
+			rdf:rest*/rdf:first :Pizza ;
+			rdf:rest*/rdf:first [
+				owl:onProperty :hasTopping ;
+				owl:someValuesFrom [
+					rdfs:subClassOf :PizzaTopping ] ;
+				owl:minCardinality 3 ] ] ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x rdfs:subClassOf [
+		rdf:type owl:Class ;
+		owl:intersectionOf [
+			rdf:rest*/rdf:first :Pizza ;
+			rdf:rest*/rdf:first [
+				owl:onProperty :hasTopping ;
+				owl:minCardinality 3 ] ] ] .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x
+WHERE {
+	?x rdfs:subClassOf [
+		rdf:type owl:Class ;
+		owl:intersectionOf [
+			rdf:rest*/rdf:first :Pizza ;
+			rdf:rest*/rdf:first [
+				owl:complementOf :VegetarianPizza ] ] ] .
+}

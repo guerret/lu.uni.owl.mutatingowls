@@ -33,7 +33,7 @@ public class Mutant extends Ontology {
 		String path = MutatingOWLs.mutantPath + "/" + this.operator;
 		String fileName = getVersionIRI() + ".owl";
 		File file = new File(path + File.separator + fileName);
-		save(file);
+		super.save(file);
 	}
 
 }

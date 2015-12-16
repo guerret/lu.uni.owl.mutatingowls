@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
+import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -76,7 +76,7 @@ public class Ontology {
 	}
 
 	public void save(File file) {
-		OWLDocumentFormat format = new OWLXMLDocumentFormat();
+		OWLDocumentFormat format = new RDFXMLDocumentFormat();
 		try {
 			manager.saveOntology(ontology, format, IRI.create(file.toURI()));
 		} catch (OWLOntologyStorageException e) {
