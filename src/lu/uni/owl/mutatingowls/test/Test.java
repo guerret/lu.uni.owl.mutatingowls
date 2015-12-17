@@ -19,6 +19,7 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFactory;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.query.ResultSetRewindable;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.sparql.resultset.ResultSetCompare;
@@ -32,13 +33,17 @@ public class Test {
 
 	private static String ontologyFile = MutatingOWLs.OWL_PATH + "/" + DEFAULT_ONTOLOGY + ".owl";
 	private static String testFile = MutatingOWLs.OWL_PATH + "/" + DEFAULT_ONTOLOGY + "-tests.rq";
+	private static String mutantDirectory = MutatingOWLs.OWL_PATH + "/mutants/" + DEFAULT_ONTOLOGY + ".owl" + "/";
+
+	private OntModel model;
 
 	private Query[] queries = null;
+	private QueryExecution[] qes = null;
 
 	private List<ResultSetRewindable> groundResults = new ArrayList<ResultSetRewindable>();
 
 	public Test() {
-		OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
+		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
 		FileManager.get().readModel(model, ontologyFile);
 		String[] queryStrings = null;
 		try {
@@ -58,46 +63,43 @@ public class Test {
 		}
 
 		queries = new Query[queryStrings.length];
-		QueryExecution[] qes = new QueryExecution[queryStrings.length];
+		qes = new QueryExecution[queryStrings.length];
 		for (int i = 0; i < queryStrings.length; i++) {
 			queries[i] = QueryFactory.create(queryStrings[i]);
-			QueryExecution qe = QueryExecutionFactory.create(queries[i], model);
-			qes[i] = qe;
-			ResultSet results = qe.execSelect();
+			qes[i] = QueryExecutionFactory.create(queries[i], model);
+			ResultSet results = qes[i].execSelect();
 			groundResults.add(ResultSetFactory.copyResults(results));
-
-			// qe.close();
 		}
 	}
 
-	public static void main(String[] args) {
-		// String uri = model.listOntologies().next().getURI() + "#";
-		// String prefixes = "prefix : <" + uri + "> "
-		// + "prefix rdf: <" + RDF.getURI() + "> "
-		// + "prefix rdfs: <" + RDFS.getURI() + "> "
-		// + "prefix owl: <" + OWL.getURI() + "> ";
-		// List<String> queryStrings = new ArrayList<String>();
-		Test testRunner = new Test();
-		String mutantDir = MutatingOWLs.OWL_PATH + "/mutants/" + DEFAULT_ONTOLOGY + ".owl" + "/";
-		File directory = new File(mutantDir);
-		File[] subdirs = directory.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
-		for (File dir : subdirs) {
-			File[] files = dir.listFiles((FileFilter) FileFileFilter.FILE);
-			int numKilled = 0;
-			System.out.println(dir.getName() + ": total " + files.length);
-			for (int i = 0; i < files.length; i++) {
-				File f = files[i];
-				boolean equal = testRunner.testMutant(f.getPath(), testFile);
-				if (!equal) {
-					System.out.print(".");
-					numKilled++;
-				} else
-					System.out.print("x");
+	public Test(String queryFile) {
+		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
+		FileManager.get().readModel(model, ontologyFile);
+		String queryString = "";
+		try {
+			FileReader fileReader = new FileReader(queryFile);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			String line = null;
+			while ((line = bufferedReader.readLine()) != null) {
+				queryString += line + System.lineSeparator();
 			}
-			System.out.println();
-			System.out.println(dir.getName() + ": " + numKilled + "/" + files.length);
+			bufferedReader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
+		queries = new Query[1];
+		queries[0] = QueryFactory.create(queryString);
+	}
+
+	private void runSingleTest() {
+		QueryExecution qe = QueryExecutionFactory.create(queries[0], model);
+		ResultSet results = qe.execSelect();
+		ResultSetFormatter.out(System.out, results);
+
+		qe.close();
 	}
 
 	private boolean testMutant(String ontologyFile, String testFile) {
@@ -117,6 +119,36 @@ public class Test {
 		}
 		model.close();
 		return equal;
+	}
+
+	public static void main(String[] args) {
+		if (args.length > 0 && !args[0].isEmpty()) {
+			String queryFile = MutatingOWLs.OWL_PATH + "/" + args[0];
+			Test testRunner = new Test(queryFile);
+			testRunner.runSingleTest();
+			System.exit(0);
+		}
+		Test testRunner = new Test();
+		File directory = new File(mutantDirectory);
+		File[] subdirs = directory.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+		for (File dir : subdirs) {
+			File[] files = dir.listFiles((FileFilter) FileFileFilter.FILE);
+			int numKilled = 0;
+			System.out.println(dir.getName() + ": total " + files.length);
+			for (int i = 0; i < files.length; i++) {
+				File f = files[i];
+				boolean equal = testRunner.testMutant(f.getPath(), testFile);
+				if (!equal) {
+					System.out.print(".");
+					numKilled++;
+				} else
+					System.out.print("x");
+			}
+			System.out.println();
+			System.out.println(dir.getName() + ": " + numKilled + "/" + files.length);
+		}
+		for (QueryExecution qe : testRunner.qes)
+			qe.close();
 	}
 
 }

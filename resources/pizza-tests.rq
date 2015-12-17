@@ -135,3 +135,23 @@ WHERE {
 			rdf:rest*/rdf:first [
 				owl:complementOf :VegetarianPizza ] ] ] .
 }
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x ?y
+WHERE {
+	?x rdfs:subClassOf :Pizza .
+	?x owl:disjointWith ?y .
+}
+
+prefix : <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?x ?label
+WHERE {
+	?y rdfs:label ?label .
+	?y rdfs:subClassOf ?x .
+}
