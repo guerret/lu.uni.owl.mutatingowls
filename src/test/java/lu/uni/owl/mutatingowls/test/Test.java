@@ -3,7 +3,6 @@ package lu.uni.owl.mutatingowls.test;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,9 +45,10 @@ public class Test {
 		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
 		FileManager.get().readModel(model, ontologyFile);
 		String[] queryStrings = null;
-		try {
-			FileReader fileReader = new FileReader(testFile);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
+		try (FileReader fileReader = new FileReader(testFile);
+				BufferedReader bufferedReader = new BufferedReader(fileReader);) {
+			// FileReader fileReader = new FileReader(testFile);
+			// BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String lines = "";
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
@@ -56,8 +56,6 @@ public class Test {
 			}
 			bufferedReader.close();
 			queryStrings = lines.split(System.lineSeparator() + System.lineSeparator());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -76,16 +74,15 @@ public class Test {
 		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
 		FileManager.get().readModel(model, ontologyFile);
 		String queryString = "";
-		try {
-			FileReader fileReader = new FileReader(queryFile);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
+		try (FileReader fileReader = new FileReader(queryFile);
+				BufferedReader bufferedReader = new BufferedReader(fileReader);) {
+			// FileReader fileReader = new FileReader(queryFile);
+			// BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
 				queryString += line + System.lineSeparator();
 			}
 			bufferedReader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
