@@ -1,6 +1,8 @@
 package lu.uni.owl.mutatingowls;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -66,7 +68,11 @@ public class Ontology {
 		// The next instruction overrides some problems in the atpir-fi ontology
 		manager.getIRIMappers().add(new SimpleIRIMapper(IRI.create("http://purl.org/NET/atpir-fi"),
 				IRI.create(new File(path + File.separator + "atpir-fi.owl"))));
-		ontology = load(path + File.separator + fileName);
+		try {
+			ontology = load(new File(path + File.separator + fileName).toURI().toURL());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 		System.out.println("Number of axioms: " + ontology.getAxiomCount());
 		System.out.println("IRI: " + ontology.getOntologyID().getOntologyIRI().get());
 	}
@@ -119,9 +125,9 @@ public class Ontology {
 		return ontology.getOntologyID().getVersionIRI().get();
 	}
 
-	private OWLOntology load(String fileName) {
+	private OWLOntology load(URL url) {
 		try {
-			return manager.loadOntologyFromOntologyDocument(IRI.create(new File(fileName)));
+			return manager.loadOntologyFromOntologyDocument(IRI.create(url));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}
