@@ -1,7 +1,6 @@
 package lu.uni.owl.mutatingowls;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
@@ -57,22 +56,16 @@ public class Ontology {
 	 * 
 	 * Ontology files must be stored in the resources directory.
 	 * 
-	 * @param path
-	 *            The path to the OWL file
-	 * @param fileName
-	 *            The name of the OWL file containing the ontology
+	 * @param url
+	 *            The URL representing the OWL file containing the ontology
 	 */
-	public Ontology(String path, String fileName) {
+	public Ontology(URL url) {
 		manager = OWLManager.createOWLOntologyManager();
 		manager.getIRIMappers().add(new AutoIRIMapper(new File(System.getProperty("user.dir") + "/resources"), false));
 		// The next instruction overrides some problems in the atpir-fi ontology
 		manager.getIRIMappers().add(new SimpleIRIMapper(IRI.create("http://purl.org/NET/atpir-fi"),
-				IRI.create(new File(path + File.separator + "atpir-fi.owl"))));
-		try {
-			ontology = load(new File(path + File.separator + fileName).toURI().toURL());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+				IRI.create(new File(MutatingOWLs.OWL_PATH + File.separator + "atpir-fi.owl"))));
+		ontology = load(url);
 		System.out.println("Number of axioms: " + ontology.getAxiomCount());
 		System.out.println("IRI: " + ontology.getOntologyID().getOntologyIRI().get());
 	}

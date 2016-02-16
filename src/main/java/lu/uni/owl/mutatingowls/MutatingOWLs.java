@@ -1,5 +1,7 @@
 package lu.uni.owl.mutatingowls;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,7 +21,11 @@ public class MutatingOWLs {
 	public static String mutantPath;
 
 	private MutatingOWLs(String ontologyName) {
-		ontology = new Ontology(OWL_PATH, ontologyName);
+		try {
+			ontology = new Ontology(new File(OWL_PATH + File.separator + ontologyName).toURI().toURL());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 		mutantPath = OWL_PATH + "/mutants/" + ontologyName;
 	}
 
