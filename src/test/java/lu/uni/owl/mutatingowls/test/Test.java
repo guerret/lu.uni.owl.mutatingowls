@@ -30,9 +30,9 @@ public class Test {
 
 	private static final String DEFAULT_ONTOLOGY = "pizza";
 
-	private static String ontologyFile = MutatingOWLs.OWL_PATH + "/" + DEFAULT_ONTOLOGY + ".owl";
-	private static String testFile = MutatingOWLs.OWL_PATH + "/" + DEFAULT_ONTOLOGY + "-tests.rq";
-	private static String mutantDirectory = MutatingOWLs.OWL_PATH + "/mutants/" + DEFAULT_ONTOLOGY + ".owl" + "/";
+	private static String ontologyFile;
+	private static String testFile;
+	private static String mutantDirectory;
 
 	private OntModel model;
 
@@ -47,8 +47,6 @@ public class Test {
 		String[] queryStrings = null;
 		try (FileReader fileReader = new FileReader(testFile);
 				BufferedReader bufferedReader = new BufferedReader(fileReader);) {
-			// FileReader fileReader = new FileReader(testFile);
-			// BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String lines = "";
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
@@ -76,8 +74,6 @@ public class Test {
 		String queryString = "";
 		try (FileReader fileReader = new FileReader(queryFile);
 				BufferedReader bufferedReader = new BufferedReader(fileReader);) {
-			// FileReader fileReader = new FileReader(queryFile);
-			// BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
 				queryString += line + System.lineSeparator();
@@ -118,9 +114,29 @@ public class Test {
 		return equal;
 	}
 
+	/**
+	 * With the second argument, it runs a single test. Without the second
+	 * argument, it runs mutation testing (using the queries in the file
+	 * ONTOLOGYNAME-tests.rq). Without arguments, it runs mutation testing on
+	 * the default (pizza) ontology.
+	 * 
+	 * @param args
+	 *            Up to two arguments. The first one is the ontology name (no
+	 *            file, without extension). If missing, it falls back to the
+	 *            pizza ontology. The second (optional) argument is the query to
+	 *            run the test. It must be a file containing a single SPARQL
+	 *            query
+	 */
 	public static void main(String[] args) {
+		String ontology = DEFAULT_ONTOLOGY;
 		if (args.length > 0 && !args[0].isEmpty()) {
-			String queryFile = MutatingOWLs.OWL_PATH + "/" + args[0];
+			ontology = args[0];
+		}
+		ontologyFile = MutatingOWLs.OWL_PATH + "/" + ontology + ".owl";
+		testFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-tests.rq";
+		mutantDirectory = MutatingOWLs.OWL_PATH + "/mutants/" + ontology + ".owl" + "/";
+		if (args.length > 1 && !args[1].isEmpty()) {
+			String queryFile = MutatingOWLs.OWL_PATH + "/" + args[1];
 			Test testRunner = new Test(queryFile);
 			testRunner.runSingleTest();
 			System.exit(0);
@@ -128,22 +144,23 @@ public class Test {
 		Test testRunner = new Test();
 		File directory = new File(mutantDirectory);
 		File[] subdirs = directory.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
-		for (File dir : subdirs) {
-			File[] files = dir.listFiles((FileFilter) FileFileFilter.FILE);
-			int numKilled = 0;
-			System.out.println(dir.getName() + ": total " + files.length);
-			for (int i = 0; i < files.length; i++) {
-				File f = files[i];
-				boolean equal = testRunner.testMutant(f.getPath(), testFile);
-				if (!equal) {
-					System.out.print(".");
-					numKilled++;
-				} else
-					System.out.print("x");
+		if (subdirs != null)
+			for (File dir : subdirs) {
+				File[] files = dir.listFiles((FileFilter) FileFileFilter.FILE);
+				int numKilled = 0;
+				System.out.println(dir.getName() + ": total " + files.length);
+				for (int i = 0; i < files.length; i++) {
+					File f = files[i];
+					boolean equal = testRunner.testMutant(f.getPath(), testFile);
+					if (!equal) {
+						System.out.print(".");
+						numKilled++;
+					} else
+						System.out.print("x");
+				}
+				System.out.println();
+				System.out.println(dir.getName() + ": " + numKilled + "/" + files.length);
 			}
-			System.out.println();
-			System.out.println(dir.getName() + ": " + numKilled + "/" + files.length);
-		}
 		for (QueryExecution qe : testRunner.qes)
 			qe.close();
 	}
