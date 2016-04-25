@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.FileFileFilter;
+import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.Query;
@@ -23,6 +24,7 @@ import org.apache.jena.query.ResultSetRewindable;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.sparql.resultset.ResultSetCompare;
 import org.apache.jena.util.FileManager;
+import org.apache.jena.util.iterator.ExtendedIterator;
 
 import lu.uni.owl.mutatingowls.MutatingOWLs;
 
@@ -32,14 +34,27 @@ public class Test {
 
 	private static String ontologyFile;
 	private static String testFile;
+	private static String coverageFile;
 	private static String mutantDirectory;
 
 	private OntModel model;
 
 	private Query[] queries = null;
 	private QueryExecution[] qes = null;
+	private String coverageString;
 
 	private List<ResultSetRewindable> groundResults = new ArrayList<ResultSetRewindable>();
+
+	class MutantResult {
+	
+		public boolean equal;
+		public double coverage;
+	
+		MutantResult(double cov) {
+			equal = true;
+			coverage = cov;
+		}
+	}
 
 	public Test() {
 		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
@@ -65,6 +80,19 @@ public class Test {
 			qes[i] = QueryExecutionFactory.create(queries[i], model);
 			ResultSet results = qes[i].execSelect();
 			groundResults.add(ResultSetFactory.copyResults(results));
+		}
+
+		try (FileReader fileReader = new FileReader(coverageFile);
+				BufferedReader bufferedReader = new BufferedReader(fileReader);) {
+			String lines = "";
+			String line = null;
+			while ((line = bufferedReader.readLine()) != null) {
+				lines += line + System.lineSeparator();
+			}
+			bufferedReader.close();
+			coverageString = lines;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -95,23 +123,42 @@ public class Test {
 		qe.close();
 	}
 
-	private boolean testMutant(String ontologyFile, String testFile) {
+	private double coverage(OntModel model) {
+		int total = 0;
+		ExtendedIterator<OntClass> classes = model.listClasses();
+		while (classes.hasNext()) {
+			OntClass thisClass = (OntClass) classes.next();
+			if (thisClass.getNameSpace() != null
+					&& thisClass.getNameSpace().equals("http://www.uni.lu/dataprotection#"))
+				total++;
+		}
+
+		Query query = QueryFactory.create(coverageString);
+		QueryExecution qes = QueryExecutionFactory.create(query, model);
+		ResultSetRewindable rSet = ResultSetFactory.copyResults(qes.execSelect());
+		int count = rSet.nextSolution().get("count").asLiteral().getInt();
+		qes.close();
+
+		return (double) count / total * 100;
+	}
+
+	private MutantResult testMutant(String ontologyFile) {
 		OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
 		FileManager.get().readModel(model, ontologyFile);
-		boolean equal = true;
+		MutantResult mr = new MutantResult(coverage(model));
 		for (int i = 0; i < queries.length; i++) {
 			QueryExecution qe = QueryExecutionFactory.create(queries[i], model);
 			ResultSetRewindable results = ResultSetFactory.copyResults(qe.execSelect());
 			if (!ResultSetCompare.equalsByTerm(results, groundResults.get(i)))
-				equal = false;
+				mr.equal = false;
 			groundResults.get(i).reset();
 
 			qe.close();
-			if (!equal)
-				return false;
+			if (!mr.equal)
+				return mr;
 		}
 		model.close();
-		return equal;
+		return mr;
 	}
 
 	/**
@@ -132,8 +179,9 @@ public class Test {
 		if (args.length > 0 && !args[0].isEmpty()) {
 			ontology = args[0];
 		}
-		ontologyFile = MutatingOWLs.OWL_PATH + "/" + ontology + ".owl";
+		ontologyFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-rdf.owl";
 		testFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-tests.rq";
+		coverageFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-tests-coverage.rq";
 		mutantDirectory = MutatingOWLs.OWL_PATH + "/mutants/" + ontology + ".owl" + "/";
 		if (args.length > 1 && !args[1].isEmpty()) {
 			String queryFile = MutatingOWLs.OWL_PATH + "/" + args[1];
@@ -151,12 +199,13 @@ public class Test {
 				System.out.println(dir.getName() + ": total " + files.length);
 				for (int i = 0; i < files.length; i++) {
 					File f = files[i];
-					boolean equal = testRunner.testMutant(f.getPath(), testFile);
-					if (!equal) {
+					MutantResult mr = testRunner.testMutant(f.getPath());
+					if (!mr.equal) {
 						System.out.print(".");
 						numKilled++;
 					} else
 						System.out.print("x");
+					// Here we have mr.coverage
 				}
 				System.out.println();
 				System.out.println(dir.getName() + ": " + numKilled + "/" + files.length);
