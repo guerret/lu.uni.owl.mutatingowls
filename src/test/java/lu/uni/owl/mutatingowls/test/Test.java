@@ -3,8 +3,11 @@ package lu.uni.owl.mutatingowls.test;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,7 @@ public class Test {
 	private static String testFile;
 	private static String coverageFile;
 	private static String mutantDirectory;
+	private static final String outputPath = MutatingOWLs.OWL_PATH + "/results";
 
 	private OntModel model;
 
@@ -46,10 +50,10 @@ public class Test {
 	private List<ResultSetRewindable> groundResults = new ArrayList<ResultSetRewindable>();
 
 	class MutantResult {
-	
+
 		public boolean equal;
 		public double coverage;
-	
+
 		MutantResult(double cov) {
 			equal = true;
 			coverage = cov;
@@ -183,6 +187,8 @@ public class Test {
 		testFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-tests.rq";
 		coverageFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-tests-coverage.rq";
 		mutantDirectory = MutatingOWLs.OWL_PATH + "/mutants/" + ontology + ".owl" + "/";
+		String coverageFile = outputPath + "/" + ontology + "-coverage.txt";
+		String mutantFile = outputPath + "/" + ontology + "-mutants.txt";
 		if (args.length > 1 && !args[1].isEmpty()) {
 			String queryFile = MutatingOWLs.OWL_PATH + "/" + args[1];
 			Test testRunner = new Test(queryFile);
@@ -192,26 +198,52 @@ public class Test {
 		Test testRunner = new Test();
 		File directory = new File(mutantDirectory);
 		File[] subdirs = directory.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+		String covText = "";
+		String mutText = "";
+		DecimalFormat formatter = new DecimalFormat("#0.00");
 		if (subdirs != null)
 			for (File dir : subdirs) {
 				File[] files = dir.listFiles((FileFilter) FileFileFilter.FILE);
 				int numKilled = 0;
-				System.out.println(dir.getName() + ": total " + files.length);
+				String txt = dir.getName() + ": total " + files.length + "\n";
+				covText += txt;
+				mutText += txt;
+				System.out.print(txt);
 				for (int i = 0; i < files.length; i++) {
 					File f = files[i];
 					MutantResult mr = testRunner.testMutant(f.getPath());
+					covText += formatter.format(mr.coverage) + " ";
 					if (!mr.equal) {
-						System.out.print(".");
+						txt = ".";
 						numKilled++;
-					} else
-						System.out.print("x");
+					} else {
+						txt = "x";
+					}
+					mutText += txt;
+					System.out.print(txt);
 					// Here we have mr.coverage
 				}
+				covText += "\n\n";
+				mutText += "\n";
 				System.out.println();
-				System.out.println(dir.getName() + ": " + numKilled + "/" + files.length);
+				txt = dir.getName() + ": " + numKilled + "/" + files.length + "\n\n";
+				mutText += txt;
+				System.out.print(txt);
 			}
 		for (QueryExecution qe : testRunner.qes)
 			qe.close();
+		try {
+			File file = new File(coverageFile);
+			file.getParentFile().mkdirs();
+			PrintWriter out = new PrintWriter(file);
+			out.println(covText);
+			out.close();
+			out = new PrintWriter(mutantFile);
+			out.println(mutText);
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
