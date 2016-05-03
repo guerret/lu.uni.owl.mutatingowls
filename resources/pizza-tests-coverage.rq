@@ -1,0 +1,96 @@
+SELECT DISTINCT (COUNT(DISTINCT ?x) AS ?count)
+WHERE {
+{
+	?x <http://www.w3.org/2002/07/owl#equivalentClass> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping> .
+	?y <http://www.w3.org/2002/07/owl#someValuesFrom> ?z .
+	?z <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?w .
+	?w <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasSpiciness> .
+	?w <http://www.w3.org/2002/07/owl#someValuesFrom> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Hot> .
+} UNION {
+	?x <http://www.w3.org/2002/07/owl#equivalentClass> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping> .
+	?y <http://www.w3.org/2002/07/owl#someValuesFrom> ?z .
+	?z a <http://www.w3.org/2002/07/owl#Class> .
+	?z <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.co-ode.org/ontologies/pizza/pizza.owl#SpicyTopping> .
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping> .
+	?y <http://www.w3.org/2002/07/owl#someValuesFrom> ?z .
+	?z <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Hot> .
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping> .
+	?y <http://www.w3.org/2002/07/owl#minCardinality> 3 .
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping> .
+	?y <http://www.w3.org/2002/07/owl#someValuesFrom> ?z .
+	?z <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?w .
+	?w <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasSpiciness> .
+	?w <http://www.w3.org/2002/07/owl#someValuesFrom> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Hot> .
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y a <http://www.w3.org/2002/07/owl#Class> .
+	?y <http://www.w3.org/2002/07/owl#intersectionOf> ?z .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Hot> .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Medium> .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Mild> .
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y a <http://www.w3.org/2002/07/owl#Class> .
+	?y <http://www.w3.org/2002/07/owl#unionOf> ?z .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Hot> .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Medium> .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Mild> .
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y a <http://www.w3.org/2002/07/owl#Class> .
+	?y <http://www.w3.org/2002/07/owl#intersectionOf> ?z .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza> .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> ?w .
+	?w <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping> .
+	?w <http://www.w3.org/2002/07/owl#someValuesFrom> ?r .
+	?r <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.co-ode.org/ontologies/pizza/pizza.owl#PizzaTopping> .
+	?w <http://www.w3.org/2002/07/owl#minCardinality> 3 .
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y a <http://www.w3.org/2002/07/owl#Class> .
+	?y <http://www.w3.org/2002/07/owl#intersectionOf> ?z .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza> .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> ?w .
+	?w <http://www.w3.org/2002/07/owl#onProperty> <http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping> .
+	?w <http://www.w3.org/2002/07/owl#minCardinality> 3 .
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?y .
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y a <http://www.w3.org/2002/07/owl#Class> .
+	?y <http://www.w3.org/2002/07/owl#intersectionOf> ?z .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza> .
+	?z <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>*/<http://www.w3.org/1999/02/22-rdf-syntax-ns#first> ?w .
+	?w <http://www.w3.org/2002/07/owl#complementOf> <http://www.co-ode.org/ontologies/pizza/pizza.owl#VegetarianPizza> .
+} UNION {
+	{
+		?x <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza> .
+		?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+		?x <http://www.w3.org/2002/07/owl#disjointWith> ?y .
+	} UNION {
+		?y <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza> .
+		?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+		?x <http://www.w3.org/2002/07/owl#disjointWith> ?y .
+	}
+} UNION {
+	?x <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+	?y <http://www.w3.org/2000/01/rdf-schema#subClassOf> ?x .
+}
+}

@@ -18,15 +18,17 @@ public class MutatingOWLs {
 	public static final String OWL_PATH = System.getProperty("user.dir") + "/resources";
 
 	private Ontology ontology;
+	private String ontologyFile;
 	public static String mutantPath;
 
 	private MutatingOWLs(String ontologyName) {
 		try {
-			ontology = new Ontology(new File(OWL_PATH + File.separator + ontologyName).toURI().toURL());
+			ontologyFile = OWL_PATH + "/" + ontologyName + ".owl";
+			ontology = new Ontology(new File(ontologyFile).toURI().toURL());
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		mutantPath = OWL_PATH + "/mutants/" + ontologyName;
+		mutantPath = OWL_PATH + "/mutants/" + ontologyName + ".owl";
 	}
 
 	private HashMap<String, List<Mutant>> generateMutants() {

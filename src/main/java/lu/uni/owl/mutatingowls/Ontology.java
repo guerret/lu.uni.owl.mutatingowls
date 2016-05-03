@@ -25,9 +25,15 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+import org.semanticweb.owlapi.reasoner.BufferingMode;
+import org.semanticweb.owlapi.reasoner.FreshEntityPolicy;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import org.semanticweb.owlapi.search.EntitySearcher;
 import org.semanticweb.owlapi.util.AutoIRIMapper;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+
+import uk.ac.manchester.cs.jfact.JFactReasoner;
 
 /**
  * Wrapper class for an OWL ontology. This class is similar to the
@@ -51,6 +57,11 @@ public class Ontology {
 	protected OWLOntology ontology;
 
 	/**
+	 * The reasoner used to infer axioms.
+	 */
+	private OWLReasoner reasoner;
+
+	/**
 	 * Parses a file into a new ontology. The file must be OWL in any syntax,
 	 * but if there are imports it must be OWL/XML or RDF/XML.
 	 * 
@@ -66,6 +77,8 @@ public class Ontology {
 		manager.getIRIMappers().add(new SimpleIRIMapper(IRI.create("http://purl.org/NET/atpir-fi"),
 				IRI.create(new File(MutatingOWLs.OWL_PATH + File.separator + "atpir-fi.owl"))));
 		ontology = load(url);
+		SimpleConfiguration config = new SimpleConfiguration(FreshEntityPolicy.ALLOW, Long.MAX_VALUE);
+		reasoner = new JFactReasoner(ontology, config, BufferingMode.NON_BUFFERING);
 		System.out.println("Number of axioms: " + ontology.getAxiomCount());
 		System.out.println("IRI: " + ontology.getOntologyID().getOntologyIRI().get());
 	}
@@ -80,6 +93,8 @@ public class Ontology {
 		manager = OWLManager.createOWLOntologyManager();
 		manager.getOWLDataFactory();
 		ontology = owlMutant;
+		SimpleConfiguration config = new SimpleConfiguration(FreshEntityPolicy.ALLOW, Long.MAX_VALUE);
+		reasoner = new JFactReasoner(ontology, config, BufferingMode.NON_BUFFERING);
 	}
 
 	/**
@@ -253,6 +268,19 @@ public class Ontology {
 	}
 
 	/**
+	 * Helper method to recursively fetch all classes of which a given class is
+	 * a subclass. Note that the superclass is not returned if it
+	 * {@link OWLClass#isTopEntity()}.
+	 * 
+	 * @param cls
+	 *            the class whose superclasses are needed
+	 * @return all recursive superclasses of the given class
+	 */
+	public Collection<OWLClass> getSuperClassHierarchy(OWLClass cls) {
+		return reasoner.getSuperClasses(cls, false).getFlattened();
+	}
+
+	/**
 	 * Helper method to fetch all classes that are subclasses of a given class.
 	 * 
 	 * @param cls
@@ -269,6 +297,18 @@ public class Ontology {
 			}
 		}
 		return ret;
+	}
+
+	/**
+	 * Helper method to recursively fetch all classes that are subclasses of a
+	 * given class.
+	 * 
+	 * @param cls
+	 *            the class whose subclasses are needed
+	 * @return all recursive subclasses of the given class
+	 */
+	public Collection<OWLClass> getSubClassHierarchy(OWLClass cls) {
+		return reasoner.getSubClasses(cls, false).getFlattened();
 	}
 
 	/**

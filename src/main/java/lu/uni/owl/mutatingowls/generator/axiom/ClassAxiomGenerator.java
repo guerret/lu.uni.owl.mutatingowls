@@ -18,6 +18,13 @@ import lu.uni.owl.mutatingowlsgenerator.mutant.MutantGenerator;
 
 public class ClassAxiomGenerator extends EntityAxiomGenerator {
 
+	public List<OWLAxiomChange> axiomsCAS(Mutant mutant, OWLClass cls, OWLClass c) {
+		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+		OWLOntology ontology = mutant.getOntology();
+		changes.add(new AddAxiom(ontology, MutantGenerator.factory.getOWLSubClassOfAxiom(cls, c)));
+		return changes;
+	}
+
 	public List<OWLAxiomChange> axiomsCRS(Mutant mutant, OWLClass cls, OWLClassExpression s) {
 		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 		changes.add(new RemoveAxiom(mutant.getOntology(), MutantGenerator.factory.getOWLSubClassOfAxiom(cls, s)));
@@ -45,6 +52,14 @@ public class ClassAxiomGenerator extends EntityAxiomGenerator {
 		return changes;
 	}
 
+	public List<OWLAxiomChange> axiomsCAD(Mutant mutant, OWLClass cls, OWLClass c) {
+		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+		OWLOntology ontology = mutant.getOntology();
+		OWLDisjointClassesAxiom owlDisjointClassesAxiom = MutantGenerator.factory.getOWLDisjointClassesAxiom(cls, c);
+		changes.add(new AddAxiom(ontology, owlDisjointClassesAxiom));
+		return changes;
+	}
+
 	public List<OWLAxiomChange> axiomsCRD(Mutant mutant, OWLClass cls, OWLDisjointClassesAxiom disjointSet,
 			OWLClass d) {
 		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
@@ -55,6 +70,15 @@ public class ClassAxiomGenerator extends EntityAxiomGenerator {
 			disjoints.remove(d);
 			changes.add(new AddAxiom(ontology, MutantGenerator.factory.getOWLDisjointClassesAxiom(disjoints)));
 		}
+		return changes;
+	}
+
+	public List<OWLAxiomChange> axiomsCAE(Mutant mutant, OWLClass cls, OWLClass c) {
+		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+		OWLOntology ontology = mutant.getOntology();
+		OWLEquivalentClassesAxiom owlEquivalentClassesAxiom = MutantGenerator.factory.getOWLEquivalentClassesAxiom(cls,
+				c);
+		changes.add(new AddAxiom(ontology, owlEquivalentClassesAxiom));
 		return changes;
 	}
 

@@ -45,13 +45,32 @@ public class ClassMutantGenerator extends MutantGenerator implements MutantGener
 		OWLClass c = entity.asOWLClass();
 		List<OpData> ops = new ArrayList<OpData>();
 		ops.add(removeEntity(c));
+		ops.add(addSubclassAxioms(c));
 		ops.add(removeSubclassAxioms(c));
 		ops.add(swapWithParents(c));
 		ops.add(removeLabels(c));
 		ops.add(changeLabelLanguage(c));
+		ops.add(addDisjointWith(c));
 		ops.add(removeDisjointWith(c));
+		ops.add(addEquivalentWith(c));
 		ops.add(removeEquivalentWith(c));
 		return ops;
+	}
+
+	private OpData addSubclassAxioms(OWLClass cls) {
+		String opname = "CAS";
+		OpData ret = new OpData(opname);
+		Set<OWLClass> classes = sourceOntology.getClasses();
+		classes.remove(cls);
+		classes.removeAll(sourceOntology.getSuperClassHierarchy(cls));
+		classes.removeAll(sourceOntology.getSubClassHierarchy(cls));
+		for (OWLClass c : classes) {
+			String subclassLabel = sourceOntology.getLabel(c);
+			Mutant mutant = createMutant(opname, sourceOntology.getLabel(cls), subclassLabel);
+			mutant.manager.applyChanges(axiomGenerator.axiomsCAS(mutant, cls, c));
+			ret.add(mutant);
+		}
+		return ret;
 	}
 
 	private OpData removeSubclassAxioms(OWLClass cls) {
@@ -82,6 +101,24 @@ public class ClassMutantGenerator extends MutantGenerator implements MutantGener
 		return ret;
 	}
 
+	private OpData addDisjointWith(OWLClass cls) {
+		String opname = "CAD";
+		OpData ret = new OpData(opname);
+		Set<OWLClass> classes = sourceOntology.getClasses();
+		classes.remove(cls);
+		classes.removeAll(sourceOntology.getSuperClassHierarchy(cls));
+		classes.removeAll(sourceOntology.getSubClassHierarchy(cls));
+		for (OWLDisjointClassesAxiom disjointSet : sourceOntology.getOntology().getDisjointClassesAxioms(cls))
+			classes.removeAll(disjointSet.getClassesInSignature());
+		for (OWLClass c : classes) {
+			String disjointLabel = sourceOntology.getLabel(c);
+			Mutant mutant = createMutant(opname, sourceOntology.getLabel(cls), disjointLabel);
+			mutant.manager.applyChanges(axiomGenerator.axiomsCAD(mutant, cls, c));
+			ret.add(mutant);
+		}
+		return ret;
+	}
+
 	private OpData removeDisjointWith(OWLClass cls) {
 		String opname = "CRD";
 		OpData ret = new OpData(opname);
@@ -98,6 +135,24 @@ public class ClassMutantGenerator extends MutantGenerator implements MutantGener
 					ret.add(mutant);
 				}
 			}
+		}
+		return ret;
+	}
+
+	private OpData addEquivalentWith(OWLClass cls) {
+		String opname = "CAE";
+		OpData ret = new OpData(opname);
+		Set<OWLClass> classes = sourceOntology.getClasses();
+		classes.remove(cls);
+		classes.removeAll(sourceOntology.getSuperClassHierarchy(cls));
+		classes.removeAll(sourceOntology.getSubClassHierarchy(cls));
+		for (OWLEquivalentClassesAxiom equivalentSet : sourceOntology.getOntology().getEquivalentClassesAxioms(cls))
+			classes.removeAll(equivalentSet.getClassesInSignature());
+		for (OWLClass c : classes) {
+			String equivalentLabel = sourceOntology.getLabel(c);
+			Mutant mutant = createMutant(opname, sourceOntology.getLabel(cls), equivalentLabel);
+			mutant.manager.applyChanges(axiomGenerator.axiomsCAE(mutant, cls, c));
+			ret.add(mutant);
 		}
 		return ret;
 	}

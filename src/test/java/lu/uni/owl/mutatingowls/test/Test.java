@@ -132,8 +132,7 @@ public class Test {
 		ExtendedIterator<OntClass> classes = model.listClasses();
 		while (classes.hasNext()) {
 			OntClass thisClass = (OntClass) classes.next();
-			if (thisClass.getNameSpace() != null
-					&& thisClass.getNameSpace().equals("http://www.uni.lu/dataprotection#"))
+			if (thisClass.getNameSpace() != null && thisClass.getNameSpace().equals(model.getNsPrefixURI("")))
 				total++;
 		}
 
@@ -183,7 +182,7 @@ public class Test {
 		if (args.length > 0 && !args[0].isEmpty()) {
 			ontology = args[0];
 		}
-		ontologyFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-rdf.owl";
+		ontologyFile = MutatingOWLs.OWL_PATH + "/" + ontology + ".owl";
 		testFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-tests.rq";
 		coverageFile = MutatingOWLs.OWL_PATH + "/" + ontology + "-tests-coverage.rq";
 		mutantDirectory = MutatingOWLs.OWL_PATH + "/mutants/" + ontology + ".owl" + "/";
@@ -201,6 +200,8 @@ public class Test {
 		String covText = "";
 		String mutText = "";
 		DecimalFormat formatter = new DecimalFormat("#0.00");
+		covText += "Original coverage: " + formatter.format(testRunner.coverage(testRunner.model)) + "\n";
+		System.out.print(covText);
 		if (subdirs != null)
 			for (File dir : subdirs) {
 				File[] files = dir.listFiles((FileFilter) FileFileFilter.FILE);
@@ -221,7 +222,6 @@ public class Test {
 					}
 					mutText += txt;
 					System.out.print(txt);
-					// Here we have mr.coverage
 				}
 				covText += "\n\n";
 				mutText += "\n";
